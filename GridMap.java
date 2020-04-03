@@ -16,15 +16,17 @@ public class GridMap {
                     + Integer.toString(GridMap_DIM_MAX) + ").");
         }
         GridMap = new GridMapCell[dim][dim];
-        for (int r = 0; r < GridMap.length; r++) {
+        for (int r = 0; r < GridMap.length; r++){
             for (int c = 0; c < GridMap[r].length; c++) {
-                Double rand = Math.random();
-                if (rand < 0.2) {
+                // create the inaccessible lane every two columns
+                if(c % 3 == 2){
                     GridMap[r][c] = new GridMapCell(r,c,new InaccesibleTerrain());
-                } else if (rand >= 0.2 && rand <= 0.8) {
-                    GridMap[r][c] = new GridMapCell(r,c,new RegularTerrain());
-                } else {
+                }
+                else if(r == 0 || r == GridMap.length -1){
                     GridMap[r][c] = new GridMapCell(r,c,new Market("Market"));
+                }
+                else{
+                    GridMap[r][c] = new GridMapCell(r,c,new RegularTerrain());  
                 }
             }
         }
