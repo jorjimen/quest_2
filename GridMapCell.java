@@ -42,13 +42,22 @@ public class GridMapCell {
 
     // toString method
     public String toString() {
-        if (this.entity instanceof RegularTerrain) {
-            if (((RegularTerrain) this.entity).containsHero()) {
+        if (this.entity instanceof Terrain) {
+            if (((Terrain) this.entity).containsHero()) {
                 return Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET; 
-            } else {
+            } else if (this.entity instanceof PlainTerrain){
                 return Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET;
             }
-        } else if (this.entity instanceof InaccesibleTerrain) {
+            else if (this.entity instanceof BushTerrain){
+                return Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET;
+            }
+            else if (this.entity instanceof CaveTerrain){
+                return Colors.ANSI_BLACK_BACKGROUND + " " + Colors.ANSI_RESET;
+            }else{
+                return Colors.ANSI_CYAN_BACKGROUND + " " + Colors.ANSI_RESET;
+            }
+
+        }else if (this.entity instanceof InaccesibleTerrain) {
             return Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET;
         } else if (this.entity instanceof Market) {
             if (((Market) this.entity).containsHero())

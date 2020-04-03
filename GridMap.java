@@ -26,12 +26,25 @@ public class GridMap {
                     GridMap[r][c] = new GridMapCell(r,c,new Market("Market"));
                 }
                 else{
-                    GridMap[r][c] = new GridMapCell(r,c,new RegularTerrain());  
+                    Double rand = Math.random();
+                    if(rand < 0.25){
+                        GridMap[r][c] = new GridMapCell(r,c,new PlainTerrain());
+                    }
+                    else if(rand >= 0.25 && rand < 0.5){
+                        GridMap[r][c] = new GridMapCell(r,c,new CaveTerrain());
+                    }
+                    else if (rand >= 0.5 && rand > 0.75){
+                        GridMap[r][c] = new GridMapCell(r,c,new BushTerrain());  
+                    }
+                    else{
+                        GridMap[r][c] = new GridMapCell(r,c,new KoulouTerrain());  
+                    }
+                    
                 }
             }
         }
-        GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new RegularTerrain());
-        ((RegularTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
+        GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new PlainTerrain());
+        ((PlainTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
     }
 
     // n*m GridMap constructor
