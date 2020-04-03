@@ -29,7 +29,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 leave(hero_r,hero_c);
                 hero_r -= 1;
-                ((RegularTerrain) cell.getEntity()).arrive();
+                ((Terrain) cell.getEntity()).arrive();
                 return 2;
             }
         } else {
@@ -51,7 +51,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 leave(hero_r,hero_c);
                 hero_r += 1;
-                ((RegularTerrain) cell.getEntity()).arrive();
+                ((Terrain) cell.getEntity()).arrive();
                 return 2;
             }
         } else {
@@ -74,7 +74,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 leave(hero_r,hero_c);
                 hero_c -= 1;
-                ((RegularTerrain) cell.getEntity()).arrive();
+                ((Terrain) cell.getEntity()).arrive();
                 return 2;
             }
         } else {
@@ -97,7 +97,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 leave(hero_r,hero_c);
                 hero_c += 1;
-                ((RegularTerrain) cell.getEntity()).arrive();
+                ((Terrain) cell.getEntity()).arrive();
                 return 2;
             }
         } else {
@@ -111,7 +111,7 @@ public class QuestGridMap extends GridMap {
         if (cell.getEntity() instanceof Market) {
             ((Market) cell.getEntity()).leave();
         } else {
-            ((RegularTerrain) cell.getEntity()).leave();
+            ((Terrain) cell.getEntity()).leave();
         }
     }
 
@@ -126,7 +126,10 @@ public class QuestGridMap extends GridMap {
         String s = super.toString();
         s += Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET + " : YOU || ";
         s += Colors.ANSI_YELLOW_BACKGROUND + " " + Colors.ANSI_RESET + " : MARKET || ";
-        s += Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET + " : TERRAIN || ";
+        s += Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET + " : PLAIN TERRAIN || ";
+        s += Colors.ANSI_CYAN_BACKGROUND + " " + Colors.ANSI_RESET + " : KOULOU TERRAIN || ";
+        s += Colors.ANSI_BLACK_BACKGROUND + " " + Colors.ANSI_RESET + " : CAVE TERRAIN || ";
+        s += Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET + " : BUSH TERRAIN || ";
         s += Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET + " : INACCESIBLE \n";
         return s;
     }

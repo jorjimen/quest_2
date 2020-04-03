@@ -1,7 +1,9 @@
-// public class for RegularTerrain that can be accessed by entities
+// abstract class for Terrain that can be accessed by entities
+// will be extended by the different concrete types of terrains (Bush, Cave Koulou, Plain)
+
 // Extends the Entity class
 
-public class RegularTerrain implements Entity {
+abstract class Terrain implements Entity {
 
     String name = "O";
     boolean containsHero = false;
@@ -25,6 +27,8 @@ public class RegularTerrain implements Entity {
     public void leave() {
         containsHero = false;
     }
+
+    public abstract String getType();
 
 
 }
