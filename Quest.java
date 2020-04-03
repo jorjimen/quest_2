@@ -1,0 +1,250 @@
+import java.util.Scanner;
+
+// Main Quest object, to handle all the main game logic
+public class Quest {
+
+    // private data members
+    private QuestGridMap map;
+    private HeroTeam heroTeam;
+
+    private Scanner input = new Scanner(System.in);
+
+    // change this variable to adjust the maximum amount of heroes per team
+    private final int maxHeroPerTeam = 3;
+
+    // public constructor for the Quest
+    // int dim -> specifies map dimension
+    public Quest(int dim) {
+        map = new QuestGridMap(dim);
+        heroTeam = new HeroTeam();
+    }
+
+    // call this method to play the Quest
+    public void play() {
+        showStartMessage();
+        heroTeam = buildTeam();
+        System.out.println("Our group of travelers embark in their adventure...");
+        mainGameHandler();
+    }
+
+    // shows initial start mention
+    private void showStartMessage() {
+        String s = "\nGreetings traveleres!\n\nIn a far, far, away land, mythical and legendary creatures roam the wastelands in search of mighty heroes to hunt.";
+        s += "In the capital of Ansturia, King John The Mighty has allowed his royal troops every kind to hunt these creatures.";
+        s += "Obviously, any man or woman who participates in this hunt will be rewardd with numerous of gold, and the ability to level up their skills as a warrior in the Kingdom of Ansturia";
+        s += "\n\nYou have woken up one fine morning and received an invite from King John the Mighty himeself. It is time to rise up to the challenge and create your team of warriors to partake in this hunt.\n";
+        System.out.println(s);
+    }
+
+    // handles all the game logic
+    private void mainGameHandler() {
+        String option = "";
+        do {
+            if (!heroTeam.canContinue()) {
+                break;
+            }
+            try {
+                System.out.println("HERO TEAM:");
+                heroTeam.showDetailed();
+                System.out.println("\n"+ map);
+                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right\n I/i) Inspect Team\n Q/q) Quit\n");
+                System.out.print("Enter move: ");
+                option = input.nextLine();
+                int ret = -1;
+                if (option.equals("W") || option.equals("w")) {
+                    System.out.println("Moving up..");
+                    ret = map.moveUp();
+                } else if (option.equals("D") || option.equals("d")) {
+                    System.out.println("Moving right...");
+                    ret = map.moveRight();
+                } else if (option.equals("S") || option.equals("s")) {
+                    System.out.println("Moving down...");
+                    ret = map.moveDown();
+                } else if (option.equals("A") || option.equals("a")) {
+                    System.out.println("Moving left...");
+                    ret = map.moveLeft();
+                } else if (option.equals("I") || option.equals("i")) {
+                    inspectHandler();
+                    ret = 3;
+                } else {
+                    System.out.println("I can't recognize that command hero...");
+                }
+
+                switch(ret) {
+                    case -1:
+                        System.out.println("Hero, you cannot move here! It is in the edge of the world! Look at the map and notice your location.");
+                        break;
+                    case 0:
+                        System.out.println("Agh! You have hit your head against a wall. Remember, look at your map. You cannot access locations marked in red. Let's back up.");
+                      break;
+                    case 1:
+                        System.out.println("You have stumbled upon a market, hero!");
+                        map.enterMarket(heroTeam);
+                      break;
+                    case 2:
+                        System.out.println("You moved into wild grass");
+                        if (randomEncounterProbability()) {
+                            System.out.println("A random monster appears! Prepare for battle hero, this one might be tough.");
+                            Fight fight = new Fight(heroTeam);
+                            fight.fight();
+                        } else {
+                            System.out.println("No monsters have appeared. You are safe for now.");
+                        }
+                  }
+            } catch (Exception e) {System.out.println("Something went wrong...");}
+            
+        } while (!option.equals("Q") && !option.equals("q"));
+        System.out.println("Thank you for playing!");
+    }
+
+    // handles user input logic if user wants to inspect their hero team
+    private void inspectHandler() {
+        int option = 0;
+        while(true){
+            try {
+                System.out.println("HERO TEAM:");
+                heroTeam.showDetailed();
+                System.out.print("\nChoose which hero you would like to inspect (-1 to cancel): ");
+                option = Integer.parseInt(input.nextLine());
+                if (option == -1) {
+                    break;
+                }
+                HeroEntity inspecting = heroTeam.get(option);
+                System.out.println(inspecting.showListDetailed());
+                System.out.println("\nWhat would you like to do?:\n 1) View Inventory\n 2) Change Weapon\n 3) Change Armor\n 4) Use Potion\n 5) Go Back To Map\n ");
+                System.out.print("Choose your move: ");
+                int option2 = Integer.parseInt(input.nextLine());
+                if (option2 == 1) {
+                    inspecting.showInventory();
+                } else if (option2 == 2) {
+                    inspecting.changeWeapon();
+                } else if (option2 == 3) {
+                    inspecting.changeArmor();
+                } else if (option2 == 4) {
+                    if (inspecting.hasPotion()) {
+                        potionUse(inspecting);
+                    } else {
+                        System.out.println("You do not have any potions.\n");
+                    }
+                } else {
+                    break;
+                }
+            }
+            catch(Exception e){
+                System.out.println("This is not a valid option...");
+                continue;
+            }
+        }
+
+    }
+
+    // handles user input logic for using a potion out of combat
+    private void potionUse(HeroEntity hero) {
+        int option = 0;
+        while(true){
+            try {
+                hero.showPotion();
+                System.out.print("\n"+ hero.toString() + " choose which potion you want to use: ");
+                option = Integer.parseInt(input.nextLine());
+                Potion potion = hero.getPotionFromInventory(option);
+                System.out.println(heroTeam);
+                System.out.print("\n" + hero.toString() + " choose on which hero you would like to use the potion: ");
+                int option2 = Integer.parseInt(input.nextLine());
+                HeroEntity getter = heroTeam.get(option2);
+                getter.usePotion(potion);
+                if (getter == hero) {
+                    System.out.println(hero.toString() + " uses a " + potion.getName() + " on itself.");
+                    hero.removePotion(option);
+                } else {
+                    System.out.println(hero.toString() + " uses a " + potion.getName() + " on " + getter.toString() + ".");
+                    hero.removePotion(option);
+                }
+                break;
+            }
+            catch(Exception e){
+                System.out.println("This is not a valid option...");
+                continue;
+            }
+        }
+    }
+
+    // displays available hero objects at the start of the game
+    private HeroEntity[] displayAvailable() {
+
+        // If you wish to add more heroes, adjust this here.
+        
+        HeroEntity[] heroes = new HeroEntity[16];
+        heroes[0] = GameObjects.p1;
+        heroes[1] = GameObjects.p2;
+        heroes[2] = GameObjects.p3;
+        heroes[3] = GameObjects.p4;
+
+        heroes[4] = GameObjects.s1;
+        heroes[5] = GameObjects.s2;
+        heroes[6] = GameObjects.s3;
+        heroes[7] = GameObjects.s4;
+
+        heroes[8] = GameObjects.w1;
+        heroes[9] = GameObjects.w2;
+        heroes[10] = GameObjects.w3;
+        heroes[11] = GameObjects.w4;
+
+        heroes[12] = GameObjects.w5;
+        heroes[13] = GameObjects.s5;
+        heroes[14] = GameObjects.lord1;
+        heroes[15] = GameObjects.lord2;
+
+ 
+        System.out.println("         name              mana    str     agi     dex     money   exp   lvl    hp       type");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < heroes.length; i++) {
+            if (i < 10) {
+                System.out.println(Integer.toString(i) + ")  " + heroes[i].showDetailed());
+            } else {
+                System.out.println(Integer.toString(i) + ") " + heroes[i].showDetailed());
+            }
+        }
+        System.out.println();
+
+        return heroes;
+    }
+
+    // handles user input logic for building a team
+    // RESTRICTION: max amount of heroes per team is 3 and no repeated hero
+    private HeroTeam buildTeam() {
+        System.out.println("Let's start by building your team!");
+        HeroTeam hero = new HeroTeam();
+        int option = 0;
+        while(true){
+            if (hero.count() == maxHeroPerTeam) {
+                System.out.println("You reached the maximum of " + Integer.toString(maxHeroPerTeam) + " players! Your team is done!");
+                break;
+            }
+            System.out.println("Your team:");
+            System.out.println(hero);
+            System.out.println();
+            try {
+                System.out.println("Choose a possible hero to add:\n  ");
+                HeroEntity[] h = displayAvailable();
+                System.out.print("Enter move (Enter -1 to quit): ");
+                option = Integer.parseInt(input.nextLine());
+                if (option == -1) {
+                    break;
+                }
+                hero.add(h[option]);
+            }
+            catch(Exception e){
+                System.out.println("This is not a valid option...");
+                continue;
+            }
+        }
+        return hero;
+    }
+
+
+    // returns true if a random encounter has been found
+    private boolean randomEncounterProbability() {
+        int random = (int) (Math.random() * (101));
+        return random < 75;
+    }
+}
