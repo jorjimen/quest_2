@@ -42,6 +42,7 @@ public class QuestGridMap extends GridMap {
             hero_locations[heroIndex].hero_r -= 1;
             ((Terrain) cell.getEntity()).arrive();
             cell.placeHero(team.get(heroIndex));
+            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
             if (cell.getEntity() instanceof Nexus) {
                 return 1;
             } else {
@@ -63,6 +64,7 @@ public class QuestGridMap extends GridMap {
             hero_locations[heroIndex].hero_r += 1;
             ((Terrain) cell.getEntity()).arrive();
             cell.placeHero(team.get(heroIndex));
+            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
             if (cell.getEntity() instanceof Nexus) {
                 return 1;
             } else {
@@ -85,6 +87,7 @@ public class QuestGridMap extends GridMap {
             hero_locations[heroIndex].hero_c -= 1;
             cell.placeHero(team.get(heroIndex));
             ((Terrain) cell.getEntity()).arrive();
+            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
             if (cell.getEntity() instanceof Nexus) {
                 return 1;
             } else {
@@ -107,6 +110,7 @@ public class QuestGridMap extends GridMap {
             hero_locations[heroIndex].hero_c += 1;
             ((Terrain) cell.getEntity()).arrive();
             cell.placeHero(team.get(heroIndex));
+            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
             if (cell.getEntity() instanceof Nexus) {
                 return 1;
             } else {
