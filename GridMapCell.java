@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // public class for a cell in the GridMap
 
 public class GridMapCell {
@@ -7,6 +9,8 @@ public class GridMapCell {
     private int c;
 
     private Entity entity;
+
+    private ArrayList<Unit> units = new ArrayList<Unit>();
 
     // GridMapCell constructor
     public GridMapCell(int r, int c, Entity entity) {
@@ -29,6 +33,26 @@ public class GridMapCell {
         return entity;
     }
 
+    public int heroCount() {
+        int count = 0;
+        for (Unit unit : units) {
+            if (unit instanceof HeroEntity) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
+    public int enemyCount() {
+        int count = 0;
+        for (Unit unit : units) {
+            if (unit instanceof EnemyEntity) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     // setter methods
 
     public void setLocation(int r, int c) {
@@ -42,33 +66,80 @@ public class GridMapCell {
 
     // toString method
     public String toString() {
+        String toUseColor = Colors.ANSI_BLUE;
         if (this.entity instanceof Terrain) {
             if (((Terrain) this.entity).containsHero()) {
-                return Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET; 
+                toUseColor = Colors.ANSI_BLUE;
             } else if (this.entity instanceof PlainTerrain){
-                return Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET;
+                toUseColor = Colors.ANSI_WHITE;
             }
             else if (this.entity instanceof BushTerrain){
-                return Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET;
+                toUseColor = Colors.ANSI_GREEN;
             }
             else if (this.entity instanceof CaveTerrain){
-                return Colors.ANSI_BLACK_BACKGROUND + " " + Colors.ANSI_RESET;
-            }else{
-                return Colors.ANSI_CYAN_BACKGROUND + " " + Colors.ANSI_RESET;
+                toUseColor = Colors.ANSI_BLACK;
+            } else{
+                toUseColor = Colors.ANSI_CYAN;
             }
 
-        }else if (this.entity instanceof InaccesibleTerrain) {
-            return Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET;
+        } else if (this.entity instanceof InaccesibleTerrain) {
+            return Colors.ANSI_RED + "|" + Colors.ANSI_RED_BACKGROUND + "      "  + Colors.ANSI_RESET + Colors.ANSI_RED + "|" + Colors.ANSI_RESET;
         } else if (this.entity instanceof Market) {
             if (((Market) this.entity).containsHero())
-                return Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET;
+                toUseColor = Colors.ANSI_BLUE;
             else {
-                return Colors.ANSI_YELLOW_BACKGROUND + " " + Colors.ANSI_RESET;
+                toUseColor = Colors.ANSI_YELLOW;
             }
         } else {
-            return Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET;
+            toUseColor = Colors.ANSI_WHITE;
+        }
+        return toUseColor + "|" + cellContentPrintable() + "|" + Colors.ANSI_RESET;
+    }
+
+    // additional method
+
+    public boolean placeHero(HeroEntity hero) {
+        if (heroCount() == 0) {
+            units.add(hero);
+            return true;
+        } else {
+            return false;
         }
     }
 
+    public boolean placeEnemy(EnemyEntity enemy) {
+        if (enemyCount() == 0) {
+            units.add(enemy);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void removeHero() {
+        for (var i = 0; i < units.size(); i++) {
+            if (units.get(i) instanceof HeroEntity) {
+                units.remove(i);
+            }
+        } 
+    }
+
+    public void removeEnemy() {
+        for (var i = 0; i < units.size(); i++) {
+            if (units.get(i) instanceof EnemyEntity) {
+                units.remove(i);
+            }
+        } 
+    }
+
+    public String cellContentPrintable() {
+        if (units.size() == 0) {
+            return "      ";
+        } else if (units.size() == 1) {
+            return "  " + units.get(0).getIndicator() + "  ";
+        } else {
+            return units.get(0).getIndicator() + "  " + units.get(1).getIndicator();
+        }
+    }
 
 }

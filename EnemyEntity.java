@@ -15,6 +15,8 @@ abstract class EnemyEntity implements Entity, Unit {
     // This is used to reset enemies to their originals state
     private int[] original = new int[5];
 
+    private String indicator;
+
     // constructors for the EnemyEntity object
 
     public EnemyEntity(String name, int level, int damage, int defense, int dodge_chance) {
@@ -29,6 +31,7 @@ abstract class EnemyEntity implements Entity, Unit {
         original[2] = defense;
         original[3] = dodge_chance;
         original[4] = health;
+        this.indicator = "EE";
     }
 
     //getter methods
@@ -57,6 +60,10 @@ abstract class EnemyEntity implements Entity, Unit {
         return health;
     }
 
+    public String getIndicator() {
+        return indicator;
+    }
+
     // setter methhods
 
     public void setName(String newName) {
@@ -65,6 +72,10 @@ abstract class EnemyEntity implements Entity, Unit {
 
     public void setLevel(int k) {
         level = k;
+    }
+
+    public void setIndicator(String newIndicator) {
+        indicator = newIndicator;
     }
 
     // take damage, takes in a damage numebr and the type of damage

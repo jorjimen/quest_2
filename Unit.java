@@ -12,4 +12,8 @@ public interface Unit {
 
     String showDetailed();
 
+    void setIndicator(String newIndicator);
+
+    String getIndicator();
+
 } 

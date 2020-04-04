@@ -27,6 +27,8 @@ abstract class HeroEntity implements Entity, Unit {
 
     private int kills;
 
+    private String indicator;
+
     private static Scanner input = new Scanner(System.in);
 
     // Constructor method for the HeroEntity
@@ -47,6 +49,7 @@ abstract class HeroEntity implements Entity, Unit {
         equippedArmor.equip();
         addWeaponToInventory(equippedWeapon);
         addArmorToInventory(equippedArmor);
+        this.indicator = "HH";
     }
 
     // Private class for the Inventory of a hero
@@ -171,6 +174,10 @@ abstract class HeroEntity implements Entity, Unit {
         return kills;
     }
 
+    public String getIndicator() {
+        return indicator;
+    }
+
     // All the methods for modifying the private members of the class
 
     public void setStrength(int k) {
@@ -194,6 +201,10 @@ abstract class HeroEntity implements Entity, Unit {
         if (health > level*100) {
             health = 100*level;
         }
+    }
+
+    public void setIndicator(String newIndicator) {
+        indicator = newIndicator;
     }
 
     public void setName(String newName) {

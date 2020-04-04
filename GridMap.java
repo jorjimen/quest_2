@@ -45,6 +45,9 @@ public class GridMap {
         }
         GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new PlainTerrain());
         ((PlainTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
+        GridMap[0][0].placeHero(GameObjects.p1);
+        GridMap[0][1].placeHero(GameObjects.p2);
+        GridMap[0][1].placeEnemy(GameObjects.d1);
     }
 
     // n*m GridMap constructor
@@ -68,7 +71,7 @@ public class GridMap {
         String GridMap_repr = "";
         String divisor = "";
         for (int i = 0; i < GridMap[0].length; i++) {
-            divisor += "+---";
+            divisor += "+----------";
         }
         divisor += "+\n";
         for (int r = 0; r < GridMap.length; r++) {
@@ -85,6 +88,14 @@ public class GridMap {
     // checks if a can be moved to
     public boolean check(int row, int col) {
         return !(GridMap[row][col].getEntity() instanceof InaccesibleTerrain);
+    }
+
+    public boolean canReceiveHero(int row, int col) {
+        return GridMap[row][col].heroCount() == 0;
+    }
+
+    public boolean canReceiveEnemy(int row, int col) {
+        return GridMap[row][col].enemyCount() == 0;
     }
 
     public GridMapCell getEntityAt(int row, int col) {
