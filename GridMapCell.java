@@ -68,9 +68,7 @@ public class GridMapCell {
     public String toString() {
         String toUseColor = Colors.ANSI_BLUE;
         if (this.entity instanceof Terrain) {
-            if (((Terrain) this.entity).containsHero()) {
-                toUseColor = Colors.ANSI_BLUE;
-            } else if (this.entity instanceof PlainTerrain){
+            if (this.entity instanceof PlainTerrain){
                 toUseColor = Colors.ANSI_WHITE;
             }
             else if (this.entity instanceof BushTerrain){
@@ -78,18 +76,14 @@ public class GridMapCell {
             }
             else if (this.entity instanceof CaveTerrain){
                 toUseColor = Colors.ANSI_BLACK;
+            } else if (this.entity instanceof Nexus) {
+                toUseColor = Colors.ANSI_PURPLE;
             } else{
                 toUseColor = Colors.ANSI_CYAN;
             }
 
         } else if (this.entity instanceof InaccesibleTerrain) {
             return Colors.ANSI_RED + "|" + Colors.ANSI_RED_BACKGROUND + "      "  + Colors.ANSI_RESET + Colors.ANSI_RED + "|" + Colors.ANSI_RESET;
-        } else if (this.entity instanceof Market) {
-            if (((Market) this.entity).containsHero())
-                toUseColor = Colors.ANSI_BLUE;
-            else {
-                toUseColor = Colors.ANSI_YELLOW;
-            }
         } else {
             toUseColor = Colors.ANSI_WHITE;
         }

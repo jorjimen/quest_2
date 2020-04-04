@@ -23,7 +23,7 @@ public class GridMap {
                     GridMap[r][c] = new GridMapCell(r,c,new InaccesibleTerrain());
                 }
                 else if(r == 0 || r == GridMap.length -1){
-                    GridMap[r][c] = new GridMapCell(r,c,new Market("Market"));
+                    GridMap[r][c] = new GridMapCell(r,c,new Nexus());
                 }
                 else{
                     Double rand = Math.random();
@@ -43,8 +43,6 @@ public class GridMap {
                 }
             }
         }
-        GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new PlainTerrain());
-        ((PlainTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
     }
 
     // n*m GridMap constructor

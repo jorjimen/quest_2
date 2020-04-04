@@ -53,16 +53,16 @@ public class Quest {
                 int ret = -1;
                 if (option.equals("W") || option.equals("w")) {
                     System.out.println("Moving up..");
-                    ret = map.moveUp();
+                    ret = map.moveUp(heroTeam, 1);
                 } else if (option.equals("D") || option.equals("d")) {
                     System.out.println("Moving right...");
-                    ret = map.moveRight();
+                    ret = map.moveRight(heroTeam, 1);
                 } else if (option.equals("S") || option.equals("s")) {
                     System.out.println("Moving down...");
-                    ret = map.moveDown();
+                    ret = map.moveDown(heroTeam, 1);
                 } else if (option.equals("A") || option.equals("a")) {
                     System.out.println("Moving left...");
-                    ret = map.moveLeft();
+                    ret = map.moveLeft(heroTeam, 1);
                 } else if (option.equals("I") || option.equals("i")) {
                     inspectHandler();
                     ret = 3;
@@ -78,15 +78,15 @@ public class Quest {
                         System.out.println("Agh! You have hit your head against a wall. Remember, look at your map. You cannot access locations marked in red. Let's back up.");
                       break;
                     case 1:
-                        System.out.println("You have stumbled upon a market, hero!");
-                        map.enterMarket(heroTeam);
+                        System.out.println("Home sweet home! You have arrived to a Nexus.");
+                        // map.enterMarket(heroTeam);
                       break;
                     case 2:
                         System.out.println("You moved into wild grass");
                         if (randomEncounterProbability()) {
                             System.out.println("A random monster appears! Prepare for battle hero, this one might be tough.");
-                            Fight fight = new Fight(heroTeam);
-                            fight.fight();
+                            // Fight fight = new Fight(heroTeam);
+                            // fight.fight();
                         } else {
                             System.out.println("No monsters have appeared. You are safe for now.");
                         }
