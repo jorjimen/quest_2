@@ -226,11 +226,8 @@ public class Quest {
             try {
                 System.out.println("Choose a possible hero to add:\n  ");
                 HeroEntity[] h = displayAvailable();
-                System.out.print("Enter move (Enter -1 to quit): ");
+                System.out.print("Enter move: ");
                 option = Integer.parseInt(input.nextLine());
-                if (option == -1) {
-                    break;
-                }
                 hero.add(h[option]);
             }
             catch(Exception e){
@@ -238,6 +235,16 @@ public class Quest {
                 continue;
             }
         }
+
+        hero.get(0).setLocation(7, 0);
+        map.getCellAt(7, 0).placeHero(hero.get(0));
+
+        hero.get(1).setLocation(7, 3);
+        map.getCellAt(7, 3).placeHero(hero.get(1));
+
+        hero.get(2).setLocation(7, 6);
+        map.getCellAt(7, 6).placeHero(hero.get(2));
+
         return hero;
     }
 

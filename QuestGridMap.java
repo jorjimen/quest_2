@@ -20,7 +20,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_r-1 , hero_c)) {
-            GridMapCell cell = super.getEntityAt(hero_r - 1, hero_c);
+            GridMapCell cell = super.getCellAt(hero_r - 1, hero_c);
             if (cell.getEntity() instanceof Market) {
                 leave(hero_r,hero_c);
                 hero_r -= 1;
@@ -42,7 +42,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_r+1 , hero_c)) {
-            GridMapCell cell = super.getEntityAt(hero_r + 1, hero_c);
+            GridMapCell cell = super.getCellAt(hero_r + 1, hero_c);
             if (cell.getEntity() instanceof Market) {
                 leave(hero_r,hero_c);
                 hero_r += 1;
@@ -65,7 +65,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_r , hero_c - 1)) {
-            GridMapCell cell = super.getEntityAt(hero_r, hero_c - 1);
+            GridMapCell cell = super.getCellAt(hero_r, hero_c - 1);
             if (cell.getEntity() instanceof Market) {
                 leave(hero_r,hero_c);
                 hero_c -= 1;
@@ -88,7 +88,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_r , hero_c + 1)) {
-            GridMapCell cell = super.getEntityAt(hero_r, hero_c + 1);
+            GridMapCell cell = super.getCellAt(hero_r, hero_c + 1);
             if (cell.getEntity() instanceof Market) {
                 leave(hero_r,hero_c);
                 hero_c += 1;
@@ -107,7 +107,7 @@ public class QuestGridMap extends GridMap {
 
     // leave a cell
     public void leave(int r, int c) {
-        GridMapCell cell = super.getEntityAt(r, c);
+        GridMapCell cell = super.getCellAt(r, c);
         if (cell.getEntity() instanceof Market) {
             ((Market) cell.getEntity()).leave();
         } else {

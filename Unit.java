@@ -16,4 +16,8 @@ public interface Unit {
 
     String getIndicator();
 
+    void setLocation(int r, int c);
+
+    int[] getLocation();
+
 } 

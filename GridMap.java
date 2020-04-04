@@ -45,9 +45,6 @@ public class GridMap {
         }
         GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new PlainTerrain());
         ((PlainTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
-        GridMap[0][0].placeHero(GameObjects.p1);
-        GridMap[0][1].placeHero(GameObjects.p2);
-        GridMap[0][1].placeEnemy(GameObjects.d1);
     }
 
     // n*m GridMap constructor
@@ -98,7 +95,7 @@ public class GridMap {
         return GridMap[row][col].enemyCount() == 0;
     }
 
-    public GridMapCell getEntityAt(int row, int col) {
+    public GridMapCell getCellAt(int row, int col) {
         return GridMap[row][col];
     }
 

@@ -31,6 +31,8 @@ abstract class HeroEntity implements Entity, Unit {
 
     private static Scanner input = new Scanner(System.in);
 
+    private int r, c;
+
     // Constructor method for the HeroEntity
 
     public HeroEntity(String name, int level,int experience, int strength, int dexterity, int agility, int mana, int money) {
@@ -50,6 +52,8 @@ abstract class HeroEntity implements Entity, Unit {
         addWeaponToInventory(equippedWeapon);
         addArmorToInventory(equippedArmor);
         this.indicator = "HH";
+        this.r = 0;
+        this.c = 0;
     }
 
     // Private class for the Inventory of a hero
@@ -178,6 +182,13 @@ abstract class HeroEntity implements Entity, Unit {
         return indicator;
     }
 
+    public int[] getLocation() {
+        int[] location = new int[2];
+        location[0] = r;
+        location[1] = c;
+        return location;
+    }
+
     // All the methods for modifying the private members of the class
 
     public void setStrength(int k) {
@@ -201,6 +212,11 @@ abstract class HeroEntity implements Entity, Unit {
         if (health > level*100) {
             health = 100*level;
         }
+    }
+
+    public void setLocation(int r, int c) {
+        this.r = r;
+        this.c = c;
     }
 
     public void setIndicator(String newIndicator) {
