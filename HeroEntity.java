@@ -570,7 +570,8 @@ abstract class HeroEntity implements Entity, Unit {
         s += Colors.ANSI_YELLOW + Integer.toString(money) + Colors.ANSI_RESET + "     "; 
         s += Colors.ANSI_PURPLE + Integer.toString(experience) + Colors.ANSI_RESET + "     ";
         s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + "     ";
-        s += Colors.ANSI_RED + Integer.toString(health) + Colors.ANSI_RESET ;
+        s += Colors.ANSI_RED + Integer.toString(health) + Colors.ANSI_RESET  + "     ";
+        s += Colors.ANSI_WHITE + Integer.toString(r) + "," + Integer.toString(c);
         return s;
     }
 

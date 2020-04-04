@@ -126,7 +126,7 @@ public class HeroTeam {
 
     // detailed toString method of the heroteam
     public void showDetailed() {
-        System.out.println("         name              mana    str     agi     dex     money   exp   lvl    hp       type");
+        System.out.println("         name              mana    str     agi     dex     money   exp   lvl    hp      loc      type");
         System.out.println("--------------------------------------------------------------------------------------------------------");
         for (int i = 0; i < heroes.size(); i++) {
             System.out.println(Integer.toString(i) + ")  " + heroes.get(i).showDetailed());
