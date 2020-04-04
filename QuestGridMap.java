@@ -132,14 +132,14 @@ public class QuestGridMap extends GridMap {
     // to string for the QuestGridMap
     public String toString() {
         String s = super.toString();
-        s += Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET + " : YOU || ";
-        s += Colors.ANSI_YELLOW_BACKGROUND + " " + Colors.ANSI_RESET + " : MARKET || ";
+        s += Colors.ANSI_PURPLE_BACKGROUND + " " + Colors.ANSI_RESET + " : HERO NEXUS || ";
+        s += Colors.ANSI_BLUE_BACKGROUND + " " + Colors.ANSI_RESET + " : ENEMY NEXUS || ";
         s += Colors.ANSI_WHITE_BACKGROUND + " " + Colors.ANSI_RESET + " : PLAIN TERRAIN || ";
         s += Colors.ANSI_CYAN_BACKGROUND + " " + Colors.ANSI_RESET + " : KOULOU TERRAIN || ";
-        s += Colors.ANSI_BLACK_BACKGROUND + " " + Colors.ANSI_RESET + " : CAVE TERRAIN || ";
+        s += Colors.ANSI_YELLOW_BACKGROUND + " " + Colors.ANSI_RESET + " : CAVE TERRAIN || ";
         s += Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET + " : BUSH TERRAIN || ";
         s += Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET + " : INACCESIBLE \n";
-        s += Arrays.toString(hero_locations);
+        s += "\nHero locations: " + Arrays.toString(hero_locations) + "\n";
         return s;
     }
 

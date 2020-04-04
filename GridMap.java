@@ -22,8 +22,11 @@ public class GridMap {
                 if(c % 3 == 2){
                     GridMap[r][c] = new GridMapCell(r,c,new InaccesibleTerrain());
                 }
-                else if(r == 0 || r == GridMap.length -1){
-                    GridMap[r][c] = new GridMapCell(r,c,new Nexus());
+                else if(r == 0) {
+                    GridMap[r][c] = new GridMapCell(r,c,new Nexus("ENEMY"));
+                }
+                else if (r == GridMap.length -1){
+                    GridMap[r][c] = new GridMapCell(r,c,new Nexus("HERO"));
                 }
                 else{
                     Double rand = Math.random();

@@ -38,6 +38,7 @@ public class Quest {
 
     // handles all the game logic
     private void mainGameHandler() {
+        int index = 0;
         String option = "";
         do {
             if (!heroTeam.canContinue()) {
@@ -48,25 +49,26 @@ public class Quest {
                 heroTeam.showDetailed();
                 System.out.println("\n"+ map);
                 System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right\n I/i) Inspect Team\n Q/q) Quit\n");
+                System.out.println("You are currently selecting a for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
                 System.out.print("Enter move: ");
                 option = input.nextLine();
                 int ret = -1;
                 if (option.equals("W") || option.equals("w")) {
                     System.out.println("Moving up..");
-                    ret = map.moveUp(heroTeam, 1);
+                    ret = map.moveUp(heroTeam, index);
                 } else if (option.equals("D") || option.equals("d")) {
                     System.out.println("Moving right...");
-                    ret = map.moveRight(heroTeam, 1);
+                    ret = map.moveRight(heroTeam, index);
                 } else if (option.equals("S") || option.equals("s")) {
                     System.out.println("Moving down...");
-                    ret = map.moveDown(heroTeam, 1);
+                    ret = map.moveDown(heroTeam, index);
                 } else if (option.equals("A") || option.equals("a")) {
                     System.out.println("Moving left...");
-                    ret = map.moveLeft(heroTeam, 1);
+                    ret = map.moveLeft(heroTeam, index);
                 } else if (option.equals("I") || option.equals("i")) {
                     inspectHandler();
                     ret = 3;
-                } else {
+                } else if (option.equals("Q") || option.equals("q")) {break;} else {
                     System.out.println("I can't recognize that command hero...");
                 }
 
@@ -79,6 +81,11 @@ public class Quest {
                       break;
                     case 1:
                         System.out.println("Home sweet home! You have arrived to a Nexus.");
+                        if (index + 1 == heroTeam.count()) {
+                            index = 0;
+                        } else {
+                            index += 1;
+                        }
                         // map.enterMarket(heroTeam);
                       break;
                     case 2:
@@ -89,6 +96,11 @@ public class Quest {
                             // fight.fight();
                         } else {
                             System.out.println("No monsters have appeared. You are safe for now.");
+                        }
+                        if (index + 1 == heroTeam.count()) {
+                            index = 0;
+                        } else {
+                            index += 1;
                         }
                   }
             } catch (Exception e) {System.out.println("Something went wrong...");}

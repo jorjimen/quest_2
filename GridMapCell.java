@@ -75,9 +75,13 @@ public class GridMapCell {
                 toUseColor = Colors.ANSI_GREEN;
             }
             else if (this.entity instanceof CaveTerrain){
-                toUseColor = Colors.ANSI_BLACK;
+                toUseColor = Colors.ANSI_YELLOW;
             } else if (this.entity instanceof Nexus) {
-                toUseColor = Colors.ANSI_PURPLE;
+                if (((Nexus) this.entity).getType().equals("HERO")) {
+                    toUseColor = Colors.ANSI_PURPLE;
+                } else {
+                    toUseColor = Colors.ANSI_BLUE;
+                }
             } else{
                 toUseColor = Colors.ANSI_CYAN;
             }
