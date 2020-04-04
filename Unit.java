@@ -12,4 +12,12 @@ public interface Unit {
 
     String showDetailed();
 
+    void setIndicator(String newIndicator);
+
+    String getIndicator();
+
+    void setLocation(int r, int c);
+
+    int[] getLocation();
+
 } 

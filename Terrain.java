@@ -5,8 +5,9 @@
 
 abstract class Terrain implements Entity {
 
-    String name = "O";
-    boolean containsHero = false;
+    private String name = "O";
+
+    private boolean containsHero = false;
 
     public void setName(String newName) {
         newName = name;

@@ -22,8 +22,11 @@ public class GridMap {
                 if(c % 3 == 2){
                     GridMap[r][c] = new GridMapCell(r,c,new InaccesibleTerrain());
                 }
-                else if(r == 0 || r == GridMap.length -1){
-                    GridMap[r][c] = new GridMapCell(r,c,new Market("Market"));
+                else if(r == 0) {
+                    GridMap[r][c] = new GridMapCell(r,c,new Nexus("ENEMY"));
+                }
+                else if (r == GridMap.length -1){
+                    GridMap[r][c] = new GridMapCell(r,c,new Nexus("HERO"));
                 }
                 else{
                     Double rand = Math.random();
@@ -43,8 +46,6 @@ public class GridMap {
                 }
             }
         }
-        GridMap[dim - 1][dim - 1] = new GridMapCell(dim-1,dim-1, new PlainTerrain());
-        ((PlainTerrain) GridMap[dim - 1][dim - 1].getEntity()).arrive();
     }
 
     // n*m GridMap constructor
@@ -68,7 +69,7 @@ public class GridMap {
         String GridMap_repr = "";
         String divisor = "";
         for (int i = 0; i < GridMap[0].length; i++) {
-            divisor += "+---";
+            divisor += "+----------";
         }
         divisor += "+\n";
         for (int r = 0; r < GridMap.length; r++) {
@@ -87,7 +88,15 @@ public class GridMap {
         return !(GridMap[row][col].getEntity() instanceof InaccesibleTerrain);
     }
 
-    public GridMapCell getEntityAt(int row, int col) {
+    public boolean canReceiveHero(int row, int col) {
+        return GridMap[row][col].heroCount() == 0;
+    }
+
+    public boolean canReceiveEnemy(int row, int col) {
+        return GridMap[row][col].enemyCount() == 0;
+    }
+
+    public GridMapCell getCellAt(int row, int col) {
         return GridMap[row][col];
     }
 

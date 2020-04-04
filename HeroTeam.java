@@ -26,6 +26,7 @@ public class HeroTeam {
     public void add(HeroEntity newHero) {
         if (!heroes.contains(newHero)) {
             heroes.add(newHero);
+            newHero.setIndicator("H" + Integer.toString(heroes.size()- 1));
         } else {System.out.println("This hero is already here.");}
     }
 
