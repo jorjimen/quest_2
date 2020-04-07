@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 // Main Quest object, to handle all the main game logic
 public class Quest {
@@ -6,6 +8,8 @@ public class Quest {
     // private data members
     private QuestGridMap map;
     private HeroTeam heroTeam;
+    private ArrayList<EnemyEntity> enemyTeam;
+    private int numRounds;
 
     private Scanner input = new Scanner(System.in);
 
@@ -21,8 +25,10 @@ public class Quest {
 
     // call this method to play the Quest
     public void play() {
+        numRounds = 1;
         showStartMessage();
         heroTeam = buildTeam();
+        buildEnemyTeam();
         System.out.println("Our group of travelers embark in their adventure...");
         mainGameHandler();
     }
@@ -39,6 +45,10 @@ public class Quest {
     // handles all the game logic
     private void mainGameHandler() {
         int index = 0;
+        if(numRounds == 8){
+            buildEnemyTeam();
+            numRounds = 1;
+        }
         String option = "";
         do {
             if (!heroTeam.canContinue()) {
@@ -105,16 +115,35 @@ public class Quest {
                         }
                         if (index + 1 == heroTeam.count()) {
                             index = 0;
+                            moveEnemies();
+                            numRounds +=1;
                         } else {
                             index += 1;
                         }
                   }
             } catch (Exception e) {System.out.println("Something went wrong...");}
-            
+  
         } while (!option.equals("Q") && !option.equals("q"));
         System.out.println("Thank you for playing!");
     }
+    private void moveEnemies(){
+        for(int i = 0; i < enemyTeam.size(); i++){
+            // should probs do some checking here to make sure it doesnt go out of bounds.
+            // however, it can't go out of bounds bc it only moves down,
+            // so the only check necessary is if it reaches the hero nexus,
+            // at which point the game ends and mosters win
 
+            EnemyEntity enemy = enemyTeam.get(i);
+
+            int row = enemy.getLocation()[0]+1;
+            int col = enemy.getLocation()[1];
+            map.leave(row-1, col);
+
+            enemy.setLocation(row,col);
+            map.getCellAt(row,col).placeEnemy(enemy);
+
+        }
+    }
     // handles user input logic if user wants to inspect their hero team
     private void inspectHandler() {
         int option = 0;
@@ -284,6 +313,40 @@ public class Quest {
         return hero;
     }
 
+    private void buildEnemyTeam(){
+
+        this.enemyTeam = new ArrayList<EnemyEntity>();
+
+        ArrayList<EnemyEntity> possibleEnemies = new ArrayList<EnemyEntity>(Arrays.asList(GameObjects.d1,GameObjects.d2,
+        GameObjects.d3,GameObjects.d4,GameObjects.d5,GameObjects.d6,GameObjects.d7,GameObjects.d8,GameObjects.d9,GameObjects.exo1,
+        GameObjects.exo2,GameObjects.exo3,GameObjects.exo4,GameObjects.exo5,GameObjects.exo6,GameObjects.exo7,GameObjects.exo8,
+        GameObjects.exo9,GameObjects.spr1,GameObjects.spr2,GameObjects.spr3,GameObjects.spr4,GameObjects.spr5,GameObjects.spr6,
+        GameObjects.spr7,GameObjects.spr8,GameObjects.spr9,GameObjects.spr10, GameObjects.d10, GameObjects.dem1, GameObjects.d11, GameObjects.dem2,GameObjects.dem3, GameObjects.dem4, GameObjects.spr11,
+        GameObjects.spr12,GameObjects.dem2,GameObjects.dem3,GameObjects.dem4,GameObjects.dem5));
+
+        int maxLevel = heroTeam.getMaxLevel();
+
+        possibleEnemies.removeIf(a -> a.getLevel() > maxLevel);
+
+        while (possibleEnemies.size() > 3) {
+            possibleEnemies.remove((int) (Math.random() * (possibleEnemies.size())));
+        }
+
+
+        possibleEnemies.get(0).setLocation(0,0);
+        map.getCellAt(0,0).placeEnemy(possibleEnemies.get(0));
+        enemyTeam.add(possibleEnemies.get(0));
+
+        possibleEnemies.get(1).setLocation(0,3);
+        map.getCellAt(0,3).placeEnemy(possibleEnemies.get(1));
+        enemyTeam.add(possibleEnemies.get(1));
+
+        possibleEnemies.get(2).setLocation(0,6);
+        map.getCellAt(0,6).placeEnemy(possibleEnemies.get(2));
+        enemyTeam.add(possibleEnemies.get(2));
+
+
+    }
 
     // returns true if a random encounter has been found
     private boolean randomEncounterProbability() {
