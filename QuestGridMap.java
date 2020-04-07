@@ -120,6 +120,31 @@ public class QuestGridMap extends GridMap {
             return 0;
         }
     }
+    // teleports a hero
+
+    public int teleportHero(HeroTeam team, int heroIndex, int r, int c) {
+        if (r < 0 || r >= super.rowCount() || c < 0 || c >= super.colCount()) {
+            return -1;
+        }
+        if (super.check(r , c)) {
+            GridMapCell cell = super.getCellAt(r,  c);
+            leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
+            this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
+            hero_locations[heroIndex].hero_r = r;
+            hero_locations[heroIndex].hero_c = c;
+            ((Terrain) cell.getEntity()).arrive();
+            cell.placeHero(team.get(heroIndex));
+            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
+            if (cell.getEntity() instanceof Nexus) {
+                return 1;
+            } else {
+                return 2;
+            }
+        } else {
+            return 0;
+        }
+    }
+
 
     // leave a cell
     public void leave(int r, int c) {

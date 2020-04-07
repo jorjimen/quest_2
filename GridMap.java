@@ -85,7 +85,7 @@ public class GridMap {
 
     // checks if a can be moved to
     public boolean check(int row, int col) {
-        return !(GridMap[row][col].getEntity() instanceof InaccesibleTerrain);
+        return !(GridMap[row][col].getEntity() instanceof InaccesibleTerrain) && GridMap[row][col].heroCount() < 1;
     }
 
     public boolean canReceiveHero(int row, int col) {

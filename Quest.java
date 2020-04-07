@@ -48,7 +48,7 @@ public class Quest {
                 System.out.println("HERO TEAM:");
                 heroTeam.showDetailed();
                 System.out.println("\n"+ map);
-                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right\n I/i) Inspect Team\n Q/q) Quit\n");
+                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport\n I/i) Inspect Team\n Q/q) Quit\n");
                 System.out.println("You are currently selecting a for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
                 System.out.print("Enter move: ");
                 option = input.nextLine();
@@ -68,13 +68,15 @@ public class Quest {
                 } else if (option.equals("I") || option.equals("i")) {
                     inspectHandler();
                     ret = 3;
+                } else if (option.equals("T") || option.equals("t")) {
+                    ret = teleportHandler(heroTeam, index);
                 } else if (option.equals("Q") || option.equals("q")) {break;} else {
                     System.out.println("I can't recognize that command hero...");
-                }
+                } 
 
                 switch(ret) {
                     case -1:
-                        System.out.println("Hero, you cannot move here! It is in the edge of the world! Look at the map and notice your location.");
+                        System.out.println("Hero, you cannot move here! Look at the map and notice your location.");
                         break;
                     case 0:
                         System.out.println("Agh! You have hit your head against a wall. Remember, look at your map. You cannot access locations marked in red. Let's back up.");
@@ -148,6 +150,23 @@ public class Quest {
             }
         }
 
+    }
+
+    // handles teleporting
+
+    private int teleportHandler(HeroTeam heroTeam, int index) {
+        while(true){
+            try {
+                System.out.print("Enter location (r,c): ");
+                String moveString = input.nextLine();
+                String arr[] = moveString.split(",");
+                return map.teleportHero(heroTeam, index, Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
+            }
+            catch(Exception e){
+                System.out.println("This is not a valid option...");
+                continue;
+            }
+        }
     }
 
     // handles user input logic for using a potion out of combat

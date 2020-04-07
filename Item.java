@@ -1,7 +1,7 @@
 // abstract class for all the Items in the game
 // implements the Entity interface
 
-abstract class Item implements Entity {
+abstract class Item implements Entity, Sellable {
 
     // private data members
 
