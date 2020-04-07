@@ -48,8 +48,8 @@ public class Quest {
                 System.out.println("HERO TEAM:");
                 heroTeam.showDetailed();
                 System.out.println("\n"+ map);
-                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport\n I/i) Inspect Team\n Q/q) Quit\n");
-                System.out.println("You are currently selecting a for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
+                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport \n B/b) Return to Nexus/Market \n I/i) Inspect Team\n Q/q) Quit\n");
+                System.out.println("You are currently selecting a move for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
                 System.out.print("Enter move: ");
                 option = input.nextLine();
                 int ret = -1;
@@ -70,7 +70,11 @@ public class Quest {
                     ret = 3;
                 } else if (option.equals("T") || option.equals("t")) {
                     ret = teleportHandler(heroTeam, index);
-                } else if (option.equals("Q") || option.equals("q")) {break;} else {
+                } else if (option.equals("Q") || option.equals("q")) {break;
+                } else if (option.equals("B") || option.equals("b")){
+                    System.out.println("Going back to Nexus...");
+                    ret = map.teleportHero(heroTeam, index, map.rowCount()-1, heroTeam.get(index).getLocation()[1]);
+                } else {
                     System.out.println("I can't recognize that command hero...");
                 } 
 
@@ -88,7 +92,7 @@ public class Quest {
                         } else {
                             index += 1;
                         }
-                        // map.enterMarket(heroTeam);
+                        map.enterMarket(heroTeam);
                       break;
                     case 2:
                         System.out.println("You moved into wild grass");
@@ -226,8 +230,9 @@ public class Quest {
         heroes[15] = GameObjects.lord2;
 
  
-        System.out.println("         name              mana    str     agi     dex     money   exp   lvl    hp       type");
+        System.out.println("         name              mana    str     agi     dex     money   exp   lvl    hp      loc      type");
         System.out.println("--------------------------------------------------------------------------------------------------------");
+        
         for (int i = 0; i < heroes.length; i++) {
             if (i < 10) {
                 System.out.println(Integer.toString(i) + ")  " + heroes[i].showDetailed());
