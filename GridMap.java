@@ -30,13 +30,13 @@ public class GridMap {
                 }
                 else{
                     Double rand = Math.random();
-                    if(rand < 0.25){
+                    if(rand < 0.7){
                         GridMap[r][c] = new GridMapCell(r,c,new PlainTerrain());
                     }
-                    else if(rand >= 0.25 && rand < 0.5){
+                    else if(rand >= 0.7 && rand < 0.8){
                         GridMap[r][c] = new GridMapCell(r,c,new CaveTerrain());
                     }
-                    else if (rand >= 0.5 && rand > 0.75){
+                    else if (rand >= 0.8 && rand > 0.9){
                         GridMap[r][c] = new GridMapCell(r,c,new BushTerrain());  
                     }
                     else{
