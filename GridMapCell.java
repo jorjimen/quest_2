@@ -115,7 +115,7 @@ public class GridMapCell {
     }
 
     public void removeHero() {
-        for (var i = 0; i < units.size(); i++) {
+        for (int i = 0; i < units.size(); i++) {
             if (units.get(i) instanceof HeroEntity) {
                 units.remove(i);
             }
@@ -123,7 +123,7 @@ public class GridMapCell {
     }
 
     public void removeEnemy() {
-        for (var i = 0; i < units.size(); i++) {
+        for (int i = 0; i < units.size(); i++) {
             if (units.get(i) instanceof EnemyEntity) {
                 units.remove(i);
             }
