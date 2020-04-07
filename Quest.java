@@ -45,10 +45,6 @@ public class Quest {
     // handles all the game logic
     private void mainGameHandler() {
         int index = 0;
-        if(numRounds == 8){
-            buildEnemyTeam();
-            numRounds = 1;
-        }
         String option = "";
         do {
             if (!heroTeam.canContinue()) {
@@ -58,6 +54,7 @@ public class Quest {
                 System.out.println("HERO TEAM:");
                 heroTeam.showDetailed();
                 System.out.println("\n"+ map);
+                System.out.println("numRounds: " + Integer.toString(numRounds));
                 System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport \n B/b) Return to Nexus/Market \n I/i) Inspect Team\n Q/q) Quit\n");
                 System.out.println("You are currently selecting a move for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
                 System.out.print("Enter move: ");
@@ -117,6 +114,10 @@ public class Quest {
                             index = 0;
                             moveEnemies();
                             numRounds +=1;
+                            if(numRounds == 8){
+                                buildEnemyTeam();
+                                numRounds = 1;
+                            }
                         } else {
                             index += 1;
                         }
@@ -138,6 +139,8 @@ public class Quest {
             int row = enemy.getLocation()[0]+1;
             int col = enemy.getLocation()[1];
             map.leave(row-1, col);
+
+            map.getCellAt(row-1, col).removeEnemy();
 
             enemy.setLocation(row,col);
             map.getCellAt(row,col).placeEnemy(enemy);
