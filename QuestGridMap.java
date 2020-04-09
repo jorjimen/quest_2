@@ -36,18 +36,20 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_locations[heroIndex].hero_r-1 , hero_locations[heroIndex].hero_c)) {
-            GridMapCell cell = super.getCellAt(hero_locations[heroIndex].hero_r - 1, hero_locations[heroIndex].hero_c);
-            leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
-            this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
-            hero_locations[heroIndex].hero_r -= 1;
-            ((Terrain) cell.getEntity()).arrive();
-            cell.placeHero(team.get(heroIndex));
-            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
-            if (cell.getEntity() instanceof Nexus) {
-                return 1;
-            } else {
-                return 2;
-            }
+            if (scans(hero_locations[heroIndex].hero_r-1, hero_locations[heroIndex].hero_c)) {
+                GridMapCell cell = super.getCellAt(hero_locations[heroIndex].hero_r - 1, hero_locations[heroIndex].hero_c);
+                leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
+                this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
+                hero_locations[heroIndex].hero_r -= 1;
+                ((Terrain) cell.getEntity()).arrive();
+                cell.placeHero(team.get(heroIndex));
+                team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
+                if (cell.getEntity() instanceof Nexus) {
+                    return 1;
+                } else {
+                    return 2;
+                }
+            } else {return 0;}
         } else {
             return 0;
         }
@@ -58,6 +60,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_locations[heroIndex].hero_r+1 , hero_locations[heroIndex].hero_c)) {
+            if (scans(hero_locations[heroIndex].hero_r+1, hero_locations[heroIndex].hero_c)){
             GridMapCell cell = super.getCellAt(hero_locations[heroIndex].hero_r + 1, hero_locations[heroIndex].hero_c);
             leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
             this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
@@ -70,6 +73,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 return 2;
             }
+        } else {return 0;}
         } else {
             return 0;
         }
@@ -81,6 +85,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_locations[heroIndex].hero_r , hero_locations[heroIndex].hero_c - 1)) {
+            if (scans(hero_locations[heroIndex].hero_r, hero_locations[heroIndex].hero_c - 1)) {
             GridMapCell cell = super.getCellAt(hero_locations[heroIndex].hero_r, hero_locations[heroIndex].hero_c - 1);
             leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
             this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
@@ -93,6 +98,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 return 2;
             }
+        } else {return 0;}
         } else {
             return 0;
         }
@@ -104,6 +110,7 @@ public class QuestGridMap extends GridMap {
             return -1;
         }
         if (super.check(hero_locations[heroIndex].hero_r , hero_locations[heroIndex].hero_c + 1)) {
+            if (scans(hero_locations[heroIndex].hero_r, hero_locations[heroIndex].hero_c+1)) {
             GridMapCell cell = super.getCellAt(hero_locations[heroIndex].hero_r, hero_locations[heroIndex].hero_c + 1);
             leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
             this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
@@ -115,6 +122,8 @@ public class QuestGridMap extends GridMap {
                 return 1;
             } else {
                 return 2;
+            } } else {
+                return 0;
             }
         } else {
             return 0;
@@ -125,26 +134,49 @@ public class QuestGridMap extends GridMap {
     public int teleportHero(HeroTeam team, int heroIndex, int r, int c) {
         if (r < 0 || r >= super.rowCount() || c < 0 || c >= super.colCount()) {
             return -1;
+        } else if (r == 0) {
+            return -1;
         }
         if (super.check(r , c)) {
-            GridMapCell cell = super.getCellAt(r,  c);
-            leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
-            this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
-            hero_locations[heroIndex].hero_r = r;
-            hero_locations[heroIndex].hero_c = c;
-            ((Terrain) cell.getEntity()).arrive();
-            cell.placeHero(team.get(heroIndex));
-            team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
-            if (cell.getEntity() instanceof Nexus) {
-                return 1;
-            } else {
-                return 2;
-            }
+            if (scans(r,c)) {
+                GridMapCell cell = super.getCellAt(r,c);
+                leave(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c);
+                this.getCellAt(hero_locations[heroIndex].hero_r,hero_locations[heroIndex].hero_c).removeHero();
+                hero_locations[heroIndex].hero_r = r;
+                hero_locations[heroIndex].hero_c = c;
+                ((Terrain) cell.getEntity()).arrive();
+                cell.placeHero(team.get(heroIndex));
+                team.get(heroIndex).setLocation(cell.getRow(), cell.getColumn());
+                if (cell.getEntity() instanceof Nexus) {
+                    return 1;
+                } else {
+                    return 2;
+                }
+            } else {return 0;}
         } else {
             return 0;
         }
     }
 
+    public boolean scans(int r, int c) {
+        boolean scans;
+        if (c % 3 == 0) {
+            scans = rowScan(r,c) && rowScan(r,c+1);
+        } else {
+            scans = rowScan(r,c) && rowScan(r,c-1);
+        }
+        return scans;
+    }
+
+    public boolean rowScan(int r, int c) {
+        for (int r_check = super.rowCount() - 1; r_check > 0; r_check--) {
+            GridMapCell current = super.getCellAt(r_check, c);
+            if (current.enemyCount() > 0 && r_check > r) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // leave a cell
     public void leave(int r, int c) {

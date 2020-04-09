@@ -127,6 +127,7 @@ public class Quest {
         } while (!option.equals("Q") && !option.equals("q"));
         System.out.println("Thank you for playing!");
     }
+
     private void moveEnemies(){
         for(int i = 0; i < enemyTeam.size(); i++){
             // should probs do some checking here to make sure it doesnt go out of bounds.
