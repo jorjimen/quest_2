@@ -200,7 +200,6 @@ public class Quest {
                 return map.teleportHero(heroTeam, index, Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
             }
             catch(Exception e){
-                System.out.println(e);
                 System.out.println("This is not a valid option...");
                 continue;
             }
