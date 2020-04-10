@@ -134,18 +134,20 @@ public class Quest {
             // however, it can't go out of bounds bc it only moves down,
             // so the only check necessary is if it reaches the hero nexus,
             // at which point the game ends and mosters win
-
             EnemyEntity enemy = enemyTeam.get(i);
 
-            int row = enemy.getLocation()[0]+1;
-            int col = enemy.getLocation()[1];
-            map.leave(row-1, col);
-
-            map.getCellAt(row-1, col).removeEnemy();
-
-            enemy.setLocation(row,col);
-            map.getCellAt(row,col).placeEnemy(enemy);
-
+            if (heroInRange(enemy)) {
+                // do something here if an enemy can attack
+            } else {
+                int row = enemy.getLocation()[0]+1;
+                int col = enemy.getLocation()[1];
+                if (map.getCellAt(row, col).enemyCount() == 0) {
+                    map.leave(row-1, col);
+                    map.getCellAt(row-1, col).removeEnemy();
+                    enemy.setLocation(row,col);
+                    map.getCellAt(row,col).placeEnemy(enemy);
+                }
+            }
         }
     }
     // handles user input logic if user wants to inspect their hero team
@@ -336,20 +338,47 @@ public class Quest {
             possibleEnemies.remove((int) (Math.random() * (possibleEnemies.size())));
         }
 
+        EnemyEntity e1 = copyEnemy(possibleEnemies.get(0));
+        e1.setLocation(0, 0);
+        map.getCellAt(0,0).placeEnemy(e1);
+        enemyTeam.add(e1);
 
-        possibleEnemies.get(0).setLocation(0,0);
-        map.getCellAt(0,0).placeEnemy(possibleEnemies.get(0));
-        enemyTeam.add(possibleEnemies.get(0));
+        EnemyEntity e2 = copyEnemy(possibleEnemies.get(1));
+        e2.setLocation(0, 3);
+        map.getCellAt(0,3).placeEnemy(e2);
+        enemyTeam.add(e2);
 
-        possibleEnemies.get(1).setLocation(0,3);
-        map.getCellAt(0,3).placeEnemy(possibleEnemies.get(1));
-        enemyTeam.add(possibleEnemies.get(1));
+        EnemyEntity e3 = copyEnemy(possibleEnemies.get(2));
+        e3.setLocation(0, 6);
+        map.getCellAt(0,6).placeEnemy(e3);
+        enemyTeam.add(e3);
+    }
 
-        possibleEnemies.get(2).setLocation(0,6);
-        map.getCellAt(0,6).placeEnemy(possibleEnemies.get(2));
-        enemyTeam.add(possibleEnemies.get(2));
+    // performs a deep copy on an enemyentity object
+    public EnemyEntity copyEnemy(EnemyEntity enemy) {
+        if (enemy instanceof Exoskeleton) {
+            return new Exoskeleton(enemy.getName(), enemy.getLevel(), enemy.getDamage(), enemy.getDefense(), enemy.getDodgeChance());
+        } else if (enemy instanceof Dragon) {
+            return new Dragon(enemy.getName(), enemy.getLevel(), enemy.getDamage(), enemy.getDefense(), enemy.getDodgeChance());
+        } else if (enemy instanceof Demon) {
+            return new Demon(enemy.getName(), enemy.getLevel(), enemy.getDamage(), enemy.getDefense(), enemy.getDodgeChance());
+        } else {
+            return new Spirit(enemy.getName(), enemy.getLevel(), enemy.getDamage(), enemy.getDefense(), enemy.getDodgeChance());
+        } 
+    }
 
-
+    public boolean heroInRange(EnemyEntity enemy) {
+        int r = enemy.getLocation()[0];
+        int c = enemy.getLocation()[1];
+        if (r != map.getGridMap().length - 1) {
+            if (c % 3 == 0) {
+                return (map.getCellAt(r, c).heroCount() == 1) || (map.getCellAt(r+1,c).heroCount() == 1) || (map.getCellAt(r+1,c+1).heroCount() == 1) || (map.getCellAt(r, c+1).heroCount() == 1);
+            } else {
+                return (map.getCellAt(r, c).heroCount() == 1) || (map.getCellAt(r+1,c).heroCount() == 1) || (map.getCellAt(r+1,c-1).heroCount() == 1) || (map.getCellAt(r, c-1).heroCount() == 1);   
+            }
+        } else {
+            return false;
+        }
     }
 
     // returns true if a random encounter has been found

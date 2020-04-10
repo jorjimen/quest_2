@@ -158,6 +158,8 @@ public class QuestGridMap extends GridMap {
         }
     }
 
+    // row scan to see if it is possible to move forward 
+
     public boolean scans(int r, int c) {
         boolean scans;
         if (c % 3 == 0) {
@@ -168,6 +170,7 @@ public class QuestGridMap extends GridMap {
         return scans;
     }
 
+    // scans a column for an enemy
     public boolean rowScan(int r, int c) {
         for (int r_check = super.rowCount() - 1; r_check > 0; r_check--) {
             GridMapCell current = super.getCellAt(r_check, c);
