@@ -387,7 +387,6 @@ public class Quest {
     // displays enemies
 
     public void displayEnemies() {
-        System.out.println(Integer.toString(enemyTeam.size()));
         System.out.println("\nENEMIES ON THE BOARD: ");
         System.out.println("         name       lvl     hp    dmg    def     d%    loc    type");
         System.out.println("--------------------------------------------------------------------------------------------------------");
