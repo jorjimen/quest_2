@@ -1,7 +1,5 @@
 // public class for the QuestGridMap
 // extends the GridMap class
-import java.util.Arrays;
-
 public class QuestGridMap extends GridMap {
 
     // private data members
@@ -49,7 +47,7 @@ public class QuestGridMap extends GridMap {
                 } else {
                     return 2;
                 }
-            } else {return 0;}
+            } else {return -2;}
         } else {
             return 0;
         }
@@ -73,7 +71,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 return 2;
             }
-        } else {return 0;}
+        } else {return -2;}
         } else {
             return 0;
         }
@@ -98,7 +96,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 return 2;
             }
-        } else {return 0;}
+        } else {return -2;}
         } else {
             return 0;
         }
@@ -123,7 +121,7 @@ public class QuestGridMap extends GridMap {
             } else {
                 return 2;
             } } else {
-                return 0;
+                return -2;
             }
         } else {
             return 0;
@@ -135,6 +133,10 @@ public class QuestGridMap extends GridMap {
         if (r < 0 || r >= super.rowCount() || c < 0 || c >= super.colCount()) {
             return -1;
         } else if (r == 0) {
+            System.out.println("Moving to the enemy Nexus is not allowed.");
+            return -1;
+        } else if (hero_locations[heroIndex].hero_r == r && hero_locations[heroIndex].hero_c == c) {
+            System.out.println("Teleporting to the same location is not allowed.");
             return -1;
         }
         if (super.check(r , c)) {
@@ -152,7 +154,9 @@ public class QuestGridMap extends GridMap {
                 } else {
                     return 2;
                 }
-            } else {return 0;}
+            } else {
+                return -2;
+            }
         } else {
             return 0;
         }
@@ -203,7 +207,6 @@ public class QuestGridMap extends GridMap {
         s += Colors.ANSI_YELLOW_BACKGROUND + " " + Colors.ANSI_RESET + " : CAVE TERRAIN || ";
         s += Colors.ANSI_GREEN_BACKGROUND + " " + Colors.ANSI_RESET + " : BUSH TERRAIN || ";
         s += Colors.ANSI_RED_BACKGROUND + " " + Colors.ANSI_RESET + " : INACCESIBLE \n";
-        s += "\nHero locations: " + Arrays.toString(hero_locations) + "\n";
         return s;
     }
 

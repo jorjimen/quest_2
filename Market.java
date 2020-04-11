@@ -293,7 +293,7 @@ public class Market implements Entity {
         int option = 0;
         while(true){
             try {
-                System.out.println("\nWelcome to the market! What would you like to do?:\n 1) Buy \n 2) Sell \n 3) Leave");
+                System.out.println("\nWelcome back to your Nexus! As always, our market is open. What would you like to do?:\n 1) Buy \n 2) Sell \n 3) Leave");
                 System.out.print("\nEnter move: ");
                 option = Integer.parseInt(input.nextLine());
                 if (option > 0 && option < 5) {
