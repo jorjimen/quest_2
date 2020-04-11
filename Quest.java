@@ -48,9 +48,29 @@ public class Quest {
         int index = 0;
         String option = "";
         do {
-            if (!heroTeam.canContinue()) {
+            if (map.didMonstersReachNexus()) {
+                System.out.println("Heroes... it seems a monster has reached our Nexus. Let's retreat and come back stronger next time.\n");
+                System.out.println(map);
+                System.out.println(Colors.ANSI_RED + "--------------------------------------- YOU LOSE ----------------------------------------------------------------------------------\n" + Colors.ANSI_RESET);
                 break;
             }
+            if (heroTeam.get(index).isFainted()) {
+                System.out.println(heroTeam.get(index).toString() + " is fainted. It will respawn once this round ends.");
+                if (index + 1 == heroTeam.count()) {
+                    index = 0;
+                    moveEnemies();
+                    reviveFallenHeroes();
+                    numRounds += 1;
+                    if(numRounds == 8){
+                        buildEnemyTeam();
+                        System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
+                        numRounds = 1;
+                    }
+                } else {
+                    index += 1;
+                }
+                continue;
+            } 
             try {
                 System.out.println();
                 System.out.println("HERO TEAM:");
@@ -99,12 +119,20 @@ public class Quest {
                       break;
                     case 1:
                         System.out.println("Home sweet home! You have arrived to a Nexus.");
+                        map.enterMarket(heroTeam);
                         if (index + 1 == heroTeam.count()) {
                             index = 0;
+                            moveEnemies();
+                            reviveFallenHeroes();
+                            numRounds += 1;
+                            if(numRounds == 8){
+                                buildEnemyTeam();
+                                System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
+                                numRounds = 1;
+                            }
                         } else {
                             index += 1;
                         }
-                        map.enterMarket(heroTeam);
                       break;
                     case 2:
                         System.out.println("You have moved.");
@@ -115,7 +143,8 @@ public class Quest {
                         if (index + 1 == heroTeam.count()) {
                             index = 0;
                             moveEnemies();
-                            numRounds +=1;
+                            reviveFallenHeroes();
+                            numRounds += 1;
                             if(numRounds == 8){
                                 buildEnemyTeam();
                                 System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
@@ -139,10 +168,7 @@ public class Quest {
             // so the only check necessary is if it reaches the hero nexus,
             // at which point the game ends and mosters win
             EnemyEntity enemy = enemyTeam.get(i);
-
-            if (heroInRange(enemy)) {
-                // do something here if an enemy can attack
-            } else {
+            if (!heroInRange(enemy)) {
                 int row = enemy.getLocation()[0]+1;
                 int col = enemy.getLocation()[1];
                 if (map.getCellAt(row, col).enemyCount() == 0) {
@@ -150,10 +176,18 @@ public class Quest {
                     map.getCellAt(row-1, col).removeEnemy();
                     enemy.setLocation(row,col);
                     map.getCellAt(row,col).placeEnemy(enemy);
+                    if (row == map.rowCount() - 1) {
+                        System.out.println(enemy.toString() + " does a game winning move...");
+                    } else {
+                        System.out.println(enemy.toString() + " moves forward.");
+                    }
+                } else {
+                    System.out.println(enemy.toString() + " cannot move forward because there is another enemy blocking it.");
                 }
             }
         }
     }
+
     // handles user input logic if user wants to inspect their hero team
     private void inspectHandler() {
         int option = 0;
@@ -345,16 +379,19 @@ public class Quest {
         e1.setLocation(0, 0);
         map.getCellAt(0,0).placeEnemy(e1);
         enemyTeam.add(e1);
+        e1.setIndicator("E" + Integer.toString(enemyTeam.size()));
 
         EnemyEntity e2 = copyEnemy(possibleEnemies.get(1));
         e2.setLocation(0, 3);
         map.getCellAt(0,3).placeEnemy(e2);
         enemyTeam.add(e2);
+        e2.setIndicator("E" + Integer.toString(enemyTeam.size()));
 
         EnemyEntity e3 = copyEnemy(possibleEnemies.get(2));
         e3.setLocation(0, 6);
         map.getCellAt(0,6).placeEnemy(e3);
         enemyTeam.add(e3);
+        e3.setIndicator("E" + Integer.toString(enemyTeam.size()));
     }
 
     // performs a deep copy on an enemyentity object
@@ -375,9 +412,33 @@ public class Quest {
         int c = enemy.getLocation()[1];
         if (r != map.getGridMap().length - 1) {
             if (c % 3 == 0) {
-                return (map.getCellAt(r, c).heroCount() == 1) || (map.getCellAt(r+1,c).heroCount() == 1) || (map.getCellAt(r+1,c+1).heroCount() == 1) || (map.getCellAt(r, c+1).heroCount() == 1);
+                if (map.getCellAt(r, c).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r, c);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r+1,c).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r+1, c);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r+1,c+1).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r+1, c+1);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r, c+1).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r, c+1);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else {return false;}
             } else {
-                return (map.getCellAt(r, c).heroCount() == 1) || (map.getCellAt(r+1,c).heroCount() == 1) || (map.getCellAt(r+1,c-1).heroCount() == 1) || (map.getCellAt(r, c-1).heroCount() == 1);   
+                if (map.getCellAt(r, c).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r, c);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r+1,c).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r+1, c);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r+1,c-1).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r+1, c-1);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else if (map.getCellAt(r, c-1).heroCount() == 1) {
+                    HeroEntity toAttack = getHeroWithLocation(r, c-1);
+                    return monsterAttacksHero(enemy, toAttack);
+                } else {return false;} 
             }
         } else {
             return false;
@@ -394,6 +455,46 @@ public class Quest {
             System.out.println(Integer.toString(i) + ")  " + enemyTeam.get(i).showDetailed());
         }
         System.out.println();
+    }
+
+    // get hero at location
+
+    public HeroEntity getHeroWithLocation(int r, int c) {
+        for (int i = 0; i < heroTeam.count(); i++) {
+            if (map.getLocations()[i].hero_r == r && map.getLocations()[i].hero_c == c) {
+                return heroTeam.get(i);
+            }
+        }
+        return heroTeam.get(0);
+    }
+
+    // executes an attack
+
+    public boolean monsterAttacksHero(EnemyEntity enemy, HeroEntity hero) {
+        if (!hero.isFainted()) {
+            System.out.println(enemy.toString() + " attacks " + hero.toString() + " for " + Integer.toString(enemy.getDamage()) + " damage.");
+            hero.takeDamage(enemy.getDamage(), "w"); 
+            if (hero.isFainted()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    // revives dead heroes at the end of each round
+    public void reviveFallenHeroes() {
+        for (int i = 0; i < heroTeam.count(); i++) {
+            if (heroTeam.get(i).isFainted()) {
+                heroTeam.get(i).revive();
+                System.out.println(heroTeam.get(i).toString() + " has been " + Colors.ANSI_RED + "revived" + Colors.ANSI_RESET + ".");
+                if (heroTeam.get(i).getLocation()[0] != map.rowCount() - 1) {
+                    map.teleportHero(heroTeam, i, map.rowCount() - 1, heroTeam.get(i).getLocation()[1]);
+                }
+            }
+        }
     }
 
 }

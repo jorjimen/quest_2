@@ -13,7 +13,7 @@ public class QuestGridMap extends GridMap {
         hero_locations[2] = new CellHeroLocation(7,6);
     }
 
-    private class CellHeroLocation {
+    public class CellHeroLocation {
         int hero_r;
         int hero_c;
 
@@ -195,6 +195,23 @@ public class QuestGridMap extends GridMap {
     public void enterMarket(HeroTeam heroTeam) {
         Market market = new Market("Market");
         market.visit(heroTeam);
+    }
+
+    // returns true if there are monsters in the nexus
+
+    public boolean didMonstersReachNexus() {
+        for (int c = 0; c < super.colCount(); c++) {
+            if (getCellAt(super.rowCount() - 1, c).enemyCount() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // returns locations
+
+    public CellHeroLocation[] getLocations() {
+        return hero_locations;
     }
 
     // to string for the QuestGridMap
