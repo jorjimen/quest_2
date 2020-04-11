@@ -4,20 +4,11 @@
 abstract class EnemyEntity extends CharacterEntity{
 
     // private data members for the enemy entity
-
-    // private String name;
-
-    // private int level, 
     private int damage, defense, dodge_chance;
 
-    // private int health;
 
     // This is used to reset enemies to their originals state
     private int[] original = new int[5];
-
-    // private String indicator;
-
-    // private int r, c;
 
     // constructors for the EnemyEntity object
 
@@ -37,14 +28,6 @@ abstract class EnemyEntity extends CharacterEntity{
 
     //getter methods
 
-    // public String getName() {
-    //     return name;
-    // }
-
-    // public int getLevel() {
-    //     return level;
-    // }
-
     public int getDamage() {
         return damage;
     }
@@ -56,40 +39,6 @@ abstract class EnemyEntity extends CharacterEntity{
     public int getDodgeChance() {
         return dodge_chance;
     }
-
-    // public int getHealth() {
-    //     return health;
-    // }
-
-    // public String getIndicator() {
-    //     return indicator;
-    // }
-
-    // public int[] getLocation() {
-    //     int[] location = new int[2];
-    //     location[0] = r;
-    //     location[1] = c;
-    //     return location;
-    // }
-
-    // setter methhods
-
-    // public void setName(String newName) {
-    //     name = newName;
-    // }
-
-    // public void setLevel(int k) {
-    //     level = k;
-    // }
-
-    // public void setIndicator(String newIndicator) {
-    //     indicator = newIndicator;
-    // }
-
-    // public void setLocation(int r, int c) {
-    //     this.r = r;
-    //     this.c = c;
-    // }
 
     // take damage, takes in a damage numebr and the type of damage
     // inflicts damage to the enemy entity. enemy can dodge it.
@@ -124,10 +73,6 @@ abstract class EnemyEntity extends CharacterEntity{
         health = original[4];
     }
 
-    // returns if the enemyentity is fainted
-    // public boolean isFainted() {
-    //     return health <= 0;
-    // }
 
     // afflict spell damage to the enemy entity if it is afflicted by a spell.
     public void afflictSpell(String type) {
@@ -154,12 +99,6 @@ abstract class EnemyEntity extends CharacterEntity{
         }
     }
 
-    // toString method
-    // public String toString() {
-    //     String s = name + " (";
-    //     s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
-    //     return s;
-    // }
 
     // displays a detailed description of the enemy entity
     public String showDetailed() {
