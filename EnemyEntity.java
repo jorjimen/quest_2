@@ -173,6 +173,7 @@ abstract class EnemyEntity implements Entity, Unit {
         s += Colors.ANSI_GREEN + Integer.toString(damage) + Colors.ANSI_RESET + "     ";
         s += Colors.ANSI_GREEN + Integer.toString(defense) + Colors.ANSI_RESET + "     ";
         s += Colors.ANSI_GREEN + Integer.toString(dodge_chance) + Colors.ANSI_RESET + "     ";
+        s += Colors.ANSI_WHITE + Integer.toString(r) + "," + Integer.toString(c) + Colors.ANSI_RESET;
         return s;
     }
 

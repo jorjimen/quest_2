@@ -8,7 +8,8 @@ public class Quest {
     // private data members
     private QuestGridMap map;
     private HeroTeam heroTeam;
-    private ArrayList<EnemyEntity> enemyTeam;
+    private ArrayList<EnemyEntity> enemyTeam = new ArrayList<EnemyEntity>();
+    
     private int numRounds;
 
     private Scanner input = new Scanner(System.in);
@@ -51,10 +52,11 @@ public class Quest {
                 break;
             }
             try {
+                System.out.println();
                 System.out.println("HERO TEAM:");
                 heroTeam.showDetailed();
+                displayEnemies();
                 System.out.println("\n"+ map);
-                System.out.println("numRounds: " + Integer.toString(numRounds));
                 System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport \n B/b) Return to Nexus/Market \n I/i) Inspect Team\n Q/q) Quit\n");
                 System.out.println("You are currently selecting a move for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
                 System.out.print("Enter move: ");
@@ -86,8 +88,11 @@ public class Quest {
                 } 
 
                 switch(ret) {
+                    case -2:
+                        System.out.println("Hero, you cannot move forward without defeating a monster near you first. Try attacking it instead, or moving away from it.");
+                        break;
                     case -1:
-                        System.out.println("Hero, you cannot move here! Look at the map and notice your location.");
+                        System.out.println("You cannot move here! Look at the map and notice your location.");
                         break;
                     case 0:
                         System.out.println("Agh! You have hit your head against a wall. Remember, look at your map. You cannot access locations marked in red. Let's back up.");
@@ -102,26 +107,25 @@ public class Quest {
                         map.enterMarket(heroTeam);
                       break;
                     case 2:
-                        System.out.println("You moved into wild grass");
-                        if (randomEncounterProbability()) {
-                            System.out.println("A random monster appears! Prepare for battle hero, this one might be tough.");
-                            // Fight fight = new Fight(heroTeam);
-                            // fight.fight();
-                        } else {
-                            System.out.println("No monsters have appeared. You are safe for now.");
-                        }
+                        System.out.println("You have moved.");
+
+                        // THIS HANDLES THE CASE THAT YOU HAVE MOVED
+                        // ADD CODE HERE FOR A FIGHT
+
                         if (index + 1 == heroTeam.count()) {
                             index = 0;
                             moveEnemies();
                             numRounds +=1;
                             if(numRounds == 8){
                                 buildEnemyTeam();
+                                System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
                                 numRounds = 1;
                             }
                         } else {
                             index += 1;
                         }
                   }
+                  
             } catch (Exception e) {System.out.println("Something went wrong...");}
   
         } while (!option.equals("Q") && !option.equals("q"));
@@ -244,6 +248,7 @@ public class Quest {
         // If you wish to add more heroes, adjust this here.
         
         HeroEntity[] heroes = new HeroEntity[16];
+
         heroes[0] = GameObjects.p1;
         heroes[1] = GameObjects.p2;
         heroes[2] = GameObjects.p3;
@@ -321,8 +326,6 @@ public class Quest {
 
     private void buildEnemyTeam(){
 
-        this.enemyTeam = new ArrayList<EnemyEntity>();
-
         ArrayList<EnemyEntity> possibleEnemies = new ArrayList<EnemyEntity>(Arrays.asList(GameObjects.d1,GameObjects.d2,
         GameObjects.d3,GameObjects.d4,GameObjects.d5,GameObjects.d6,GameObjects.d7,GameObjects.d8,GameObjects.d9,GameObjects.exo1,
         GameObjects.exo2,GameObjects.exo3,GameObjects.exo4,GameObjects.exo5,GameObjects.exo6,GameObjects.exo7,GameObjects.exo8,
@@ -381,9 +384,17 @@ public class Quest {
         }
     }
 
-    // returns true if a random encounter has been found
-    private boolean randomEncounterProbability() {
-        int random = (int) (Math.random() * (101));
-        return random < 75;
+    // displays enemies
+
+    public void displayEnemies() {
+        System.out.println(Integer.toString(enemyTeam.size()));
+        System.out.println("\nENEMIES ON THE BOARD: ");
+        System.out.println("         name       lvl     hp    dmg    def     d%    loc    type");
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < enemyTeam.size(); i++) {
+            System.out.println(Integer.toString(i) + ")  " + enemyTeam.get(i).showDetailed());
+        }
+        System.out.println();
     }
+
 }
