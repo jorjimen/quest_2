@@ -429,7 +429,7 @@ abstract class HeroEntity implements Entity, Unit {
     public void takeDamage(int amountOfDamage, String type) {
         Double dodge_probability = (agility * 0.02) / 100;
         if (Math.random() <= dodge_probability) {
-            System.out.println(this.toString() + "has dodged the attack!");
+            System.out.println(this.toString() + " has dodged the attack!");
         } else {
             if (amountOfDamage > equippedArmor.getReduction()) {
                 if (inventory.armors.size() == 0) {
