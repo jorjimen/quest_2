@@ -3,15 +3,13 @@ import java.util.Scanner;
 
 // Abstract class for the HeroEntity
 // Handles the entire logic and data members needed necessary for any hero
-// Implements the interface Entity and Unit
+// Extends the CharacterEntity class
 
-abstract class HeroEntity implements Entity, Unit {
+abstract class HeroEntity extends CharacterEntity{ //extends characterentity
 
     // All the private data members used for a HeroEntity
 
-    private String name;
-
-    private int level, health, experience;
+    private int experience;
 
     private int strength, dexterity, agility;
 
@@ -27,18 +25,14 @@ abstract class HeroEntity implements Entity, Unit {
 
     private int kills;
 
-    private String indicator;
-
     private static Scanner input = new Scanner(System.in);
 
-    private int r, c;
 
     // Constructor method for the HeroEntity
 
     public HeroEntity(String name, int level,int experience, int strength, int dexterity, int agility, int mana, int money) {
-        this.name = name;
-        this.level = level;
-        this.health = 100*level;
+        super(name, level, "HH");
+
         this.experience = experience;
         this.strength = strength;
         this.dexterity = dexterity;
@@ -51,9 +45,7 @@ abstract class HeroEntity implements Entity, Unit {
         equippedArmor.equip();
         addWeaponToInventory(equippedWeapon);
         addArmorToInventory(equippedArmor);
-        this.indicator = "HH";
-        this.r = 0;
-        this.c = 0;
+  
     }
 
     // Private class for the Inventory of a hero
@@ -126,17 +118,17 @@ abstract class HeroEntity implements Entity, Unit {
         return agility;
     }
 
-    public String getName() {
-        return name;
-    }
+    // public String getName() {
+    //     return name;
+    // }
 
-    public int getLevel() {
-        return level;
-    }
+    // public int getLevel() {
+    //     return level;
+    // }
 
-    public int getHealth() {
-        return health;
-    }
+    // public int getHealth() {
+    //     return health;
+    // }
 
     public int getExperience() {
         return experience;
@@ -178,16 +170,16 @@ abstract class HeroEntity implements Entity, Unit {
         return kills;
     }
 
-    public String getIndicator() {
-        return indicator;
-    }
+    // public String getIndicator() {
+    //     return indicator;
+    // }
 
-    public int[] getLocation() {
-        int[] location = new int[2];
-        location[0] = r;
-        location[1] = c;
-        return location;
-    }
+    // public int[] getLocation() {
+    //     int[] location = new int[2];
+    //     location[0] = r;
+    //     location[1] = c;
+    //     return location;
+    // }
 
     // All the methods for modifying the private members of the class
 
@@ -203,9 +195,9 @@ abstract class HeroEntity implements Entity, Unit {
         agility = k;
     }
     
-    public void setLevel(int k) {
-        level = k;
-    }
+    // public void setLevel(int k) {
+    //     level = k;
+    // }
 
     public void setHealth(int k) {
         health = k;
@@ -214,18 +206,18 @@ abstract class HeroEntity implements Entity, Unit {
         }
     }
 
-    public void setLocation(int r, int c) {
-        this.r = r;
-        this.c = c;
-    }
+    // public void setLocation(int r, int c) {
+    //     this.r = r;
+    //     this.c = c;
+    // }
 
-    public void setIndicator(String newIndicator) {
-        indicator = newIndicator;
-    }
+    // public void setIndicator(String newIndicator) {
+    //     indicator = newIndicator;
+    // }
 
-    public void setName(String newName) {
-        name = newName;
-    }
+    // public void setName(String newName) {
+    //     name = newName;
+    // }
 
     public void setMana(int k) {
         mana = k;
@@ -260,10 +252,7 @@ abstract class HeroEntity implements Entity, Unit {
         }
     }
 
-    // returns true if the hero has fainted
-    public boolean isFainted() {
-        return health <= 0;
-    }
+    
 
     // handles logic for hero regaining health and mana every round
     public void regain() {
@@ -594,10 +583,10 @@ abstract class HeroEntity implements Entity, Unit {
     }
 
     // to string method for the hero
-    public String toString() {
-        String s = name + " (";
-        s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
-        return s;
-    }
+    // public String toString() {
+    //     String s = name + " (";
+    //     s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
+    //     return s;
+    // }
 
 }
