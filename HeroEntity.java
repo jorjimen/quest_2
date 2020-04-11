@@ -170,17 +170,6 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
         return kills;
     }
 
-    // public String getIndicator() {
-    //     return indicator;
-    // }
-
-    // public int[] getLocation() {
-    //     int[] location = new int[2];
-    //     location[0] = r;
-    //     location[1] = c;
-    //     return location;
-    // }
-
     // All the methods for modifying the private members of the class
 
     public void setStrength(int k) {
@@ -194,10 +183,6 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
     public void setAgility(int k) {
         agility = k;
     }
-    
-    // public void setLevel(int k) {
-    //     level = k;
-    // }
 
     public void setHealth(int k) {
         health = k;
@@ -205,19 +190,6 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
             health = 100*level;
         }
     }
-
-    // public void setLocation(int r, int c) {
-    //     this.r = r;
-    //     this.c = c;
-    // }
-
-    // public void setIndicator(String newIndicator) {
-    //     indicator = newIndicator;
-    // }
-
-    // public void setName(String newName) {
-    //     name = newName;
-    // }
 
     public void setMana(int k) {
         mana = k;
@@ -251,8 +223,7 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
             return false;
         }
     }
-
-    
+  
 
     // handles logic for hero regaining health and mana every round
     public void regain() {
@@ -581,12 +552,5 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
         s += "  Equipped Armor: " + equippedArmor.toString();
         return s;
     }
-
-    // to string method for the hero
-    // public String toString() {
-    //     String s = name + " (";
-    //     s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
-    //     return s;
-    // }
 
 }
