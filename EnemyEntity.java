@@ -1,52 +1,49 @@
 // abstract class for the EnemyEntity (Objects used to represent the logic and functionality of monsters)
-// Implements the Entity interface
-// Implements the Unit interface
+// Extends the CharacterEntity class
 
-abstract class EnemyEntity implements Entity, Unit {
+abstract class EnemyEntity extends CharacterEntity{
 
     // private data members for the enemy entity
 
-    private String name;
+    // private String name;
 
-    private int level, damage, defense, dodge_chance;
+    // private int level, 
+    private int damage, defense, dodge_chance;
 
-    private int health;
+    // private int health;
 
     // This is used to reset enemies to their originals state
     private int[] original = new int[5];
 
-    private String indicator;
+    // private String indicator;
 
-    private int r, c;
+    // private int r, c;
 
     // constructors for the EnemyEntity object
 
     public EnemyEntity(String name, int level, int damage, int defense, int dodge_chance) {
-        this.name = name;
-        this.level = level;
+        super(name, level, "EE");
+
         this.damage = damage;
         this.defense = defense;
         this.dodge_chance = dodge_chance;
-        this.health = 100*level;
         original[0] = level;
         original[1] = damage;
         original[2] = defense;
         original[3] = dodge_chance;
         original[4] = health;
-        this.indicator = "EE";
-        this.r = 0;
-        this.c = 0;
+
     }
 
     //getter methods
 
-    public String getName() {
-        return name;
-    }
+    // public String getName() {
+    //     return name;
+    // }
 
-    public int getLevel() {
-        return level;
-    }
+    // public int getLevel() {
+    //     return level;
+    // }
 
     public int getDamage() {
         return damage;
@@ -60,50 +57,50 @@ abstract class EnemyEntity implements Entity, Unit {
         return dodge_chance;
     }
 
-    public int getHealth() {
-        return health;
-    }
+    // public int getHealth() {
+    //     return health;
+    // }
 
-    public String getIndicator() {
-        return indicator;
-    }
+    // public String getIndicator() {
+    //     return indicator;
+    // }
 
-    public int[] getLocation() {
-        int[] location = new int[2];
-        location[0] = r;
-        location[1] = c;
-        return location;
-    }
+    // public int[] getLocation() {
+    //     int[] location = new int[2];
+    //     location[0] = r;
+    //     location[1] = c;
+    //     return location;
+    // }
 
     // setter methhods
 
-    public void setName(String newName) {
-        name = newName;
-    }
+    // public void setName(String newName) {
+    //     name = newName;
+    // }
 
-    public void setLevel(int k) {
-        level = k;
-    }
+    // public void setLevel(int k) {
+    //     level = k;
+    // }
 
-    public void setIndicator(String newIndicator) {
-        indicator = newIndicator;
-    }
+    // public void setIndicator(String newIndicator) {
+    //     indicator = newIndicator;
+    // }
 
-    public void setLocation(int r, int c) {
-        this.r = r;
-        this.c = c;
-    }
+    // public void setLocation(int r, int c) {
+    //     this.r = r;
+    //     this.c = c;
+    // }
 
     // take damage, takes in a damage numebr and the type of damage
     // inflicts damage to the enemy entity. enemy can dodge it.
-    public void takeDamage(int damage_number, String type) {
+    public void takeDamage(int amountOfDamage, String type) {
         Double dodge_probability = dodge_chance / (double) 100;
         if (Math.random() <= dodge_probability) {
             System.out.println(this.toString() + " has dodged the attack!");
         } else {
-            if (damage_number >= defense) {
-                health = health - (damage_number - defense);
-                System.out.println(this.toString() + " takes " + Integer.toString((damage_number - defense)) + " damage.");
+            if (amountOfDamage >= defense) {
+                health = health - (amountOfDamage - defense);
+                System.out.println(this.toString() + " takes " + Integer.toString((amountOfDamage - defense)) + " damage.");
             } else {
                 System.out.println(this.toString() + " defense has deflected all incoming damage.");
             }
@@ -128,9 +125,9 @@ abstract class EnemyEntity implements Entity, Unit {
     }
 
     // returns if the enemyentity is fainted
-    public boolean isFainted() {
-        return health <= 0;
-    }
+    // public boolean isFainted() {
+    //     return health <= 0;
+    // }
 
     // afflict spell damage to the enemy entity if it is afflicted by a spell.
     public void afflictSpell(String type) {
@@ -158,11 +155,11 @@ abstract class EnemyEntity implements Entity, Unit {
     }
 
     // toString method
-    public String toString() {
-        String s = name + " (";
-        s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
-        return s;
-    }
+    // public String toString() {
+    //     String s = name + " (";
+    //     s += Colors.ANSI_CYAN + Integer.toString(level) + Colors.ANSI_RESET  + ")";
+    //     return s;
+    // }
 
     // displays a detailed description of the enemy entity
     public String showDetailed() {

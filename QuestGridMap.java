@@ -47,7 +47,8 @@ public class QuestGridMap extends GridMap {
                 } else {
                     return 2;
                 }
-            } else {return -2;}
+            } else {
+                return -2;}
         } else {
             return 0;
         }
