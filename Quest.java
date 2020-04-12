@@ -72,13 +72,19 @@ public class Quest {
                 continue;
             } 
             try {
+                HeroEntity currentHero = heroTeam.get(index);
+                int r = currentHero.getLocation()[0];
+                int c = currentHero.getLocation()[1];
+                EnemyEntity currentEnemy = map.getCellAt(r, c).getEnemy();
+
                 System.out.println();
                 System.out.println("HERO TEAM:");
                 heroTeam.showDetailed();
                 displayEnemies();
+
                 System.out.println("\n"+ map);
-                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport \n B/b) Return to Nexus/Market \n I/i) Inspect Team/Use Item\n Q/q) Quit\n");
-                System.out.println("You are currently selecting a move for:  " + heroTeam.get(index).toString() + " ("  + heroTeam.get(index).getIndicator() + ")");
+                System.out.println("Move list:\n W/w) Move Up\n A/a) Move Left\n S/s) Move Down\n D/d) Move Right \n T/t) Teleport \n C/c) Attack \n P/p) Cast spell \n B/b) Return to Nexus/Market \n I/i) Inspect Team/Use Item\n Q/q) Quit\n");
+                System.out.println("You are currently selecting a move for:  " + currentHero.toString() + " ("  + currentHero.getIndicator() + ")");
                 System.out.print("Enter move: ");
                 option = input.nextLine();
                 int ret = -1;
@@ -101,15 +107,29 @@ public class Quest {
                     ret = teleportHandler(heroTeam, index);
                 } else if (option.equals("Q") || option.equals("q")) {
                     break;
-                } 
-                else if(option.equals("C") || option.equals("c")){  
-// attack monster
-// check if there is an enemy in the same cell
-// if so, can attack
+                }else if(option.equals("C") || option.equals("c")){ // attack if there is an enemy in the same cell
 
-                }else if (option.equals("B") || option.equals("b")){
+                    if(!monsterInSameCell(currentHero)){
+                        System.out.println("There's no monster here to attack!");
+                    } 
+                    else{
+                        ret = 4;
+                    }
+
+                }else if(option.equals("P") || option.equals("p")){  // cast spell if there is an enemy in the same cell
+
+                    if(!monsterInSameCell(currentHero)){
+                        System.out.println("There's no monster here to cast a spell on!");
+                    } 
+                    else{
+                        ret = 5;
+                       
+                    }
+
+                }
+                else if (option.equals("B") || option.equals("b")){
                     System.out.println("Going back to Nexus...");
-                    ret = map.teleportHero(heroTeam, index, map.rowCount()-1, heroTeam.get(index).getLocation()[1]);
+                    ret = map.teleportHero(heroTeam, index, map.rowCount()-1, currentHero.getLocation()[1]);
                 } else {
                     System.out.println("I can't recognize that command hero...");
                 } 
@@ -160,12 +180,81 @@ public class Quest {
                         } else {
                             index += 1;
                         }
-                  }
+                        break;
+
+                    case 4: // hero attacks enemy to try to get past
+                        boolean curAttack = attack(currentHero, currentEnemy, currentHero.calculateAttackDamage());
+                        if(!curAttack){
+                            map.getCellAt(currentHero.getLocation()[0], currentHero.getLocation()[1]).removeEnemy();
+                            enemyTeam.remove(currentEnemy);
+                            System.out.println("The enemy is defeated!");
+                        }
+                        break;
+
+                    case 5: // try to cast spell
+                        if (!currentHero.hasSpells()) {
+                            System.out.println(currentHero.toString() + " does not have any spells yet.");
+                        }
+                        else{
+                            
+                            heroUseSpell(currentHero, currentEnemy);
+                        }
+                        break;
+                    }
+                    
                   
-            } catch (Exception e) {System.out.println("Something went wrong...");}
+            } catch (Exception e) {
+                System.out.println("Something went wrong...");
+            }
+
   
         } while (!option.equals("Q") && !option.equals("q"));
-        System.out.println("Thank you for playing!");
+                System.out.println("Thank you for playing!");
+
+    } 
+    
+
+
+    private int heroUseSpell(HeroEntity hero, EnemyEntity currentEnemy) {
+    
+        while(true){
+            try {
+                hero.showSpells();
+                System.out.print(hero.toString() + " choose which spell you want to cast: ");
+                int option = Integer.parseInt(input.nextLine());
+                Spell spell = hero.getSpellFromInventory(option);
+                if (spell.getManaCost() > hero.getMana()) {
+                    System.out.println(hero.toString() + " does not have enough mana to cast this spell.");
+                    return 0;
+                } else {
+                    int damage = hero.calculateSpellDamage(spell);
+                    System.out.println(hero.toString() + " casts a " + spell.getName() + " for " + Integer.toString(spell.getManaCost()) + " mana.");
+                    if (spell instanceof LightningSpell) {
+                        currentEnemy.takeDamage(damage, "l");
+                    } else if (spell instanceof FireSpell ) {
+                        currentEnemy.takeDamage(damage, "f");
+                    } else if (spell instanceof LightSpell) {
+                        currentEnemy.takeDamage(damage, "li");
+                    } else {
+                        currentEnemy.takeDamage(damage, "i");
+                    }
+                    hero.consumeMana(spell.getManaCost());
+
+                    if(currentEnemy.isFainted()){
+
+                        map.getCellAt(hero.getLocation()[0], hero.getLocation()[1]).removeEnemy();
+                        enemyTeam.remove(currentEnemy);
+                        System.out.println("The enemy is defeated!");
+
+                    }
+                    return 1;
+                }
+            }
+            catch(Exception e){
+                System.out.println("This is not a valid option...");
+                continue;
+            }
+        }
     }
 
     private void moveEnemies(){
@@ -414,6 +503,15 @@ public class Quest {
         } 
     }
 
+    // when a hero tries to attack or use a spell, use this to check if there is a monster in the same cell
+    // if there is, the attack/spell can proceed otherwise, can't use those actions
+    public boolean monsterInSameCell(HeroEntity hero){
+        int r = hero.getLocation()[0];
+        int c = hero.getLocation()[1];
+
+        return map.getCellAt(r, c).enemyCount() > 0;
+    }
+
     public boolean heroInRange(EnemyEntity enemy) {
         int r = enemy.getLocation()[0];
         int c = enemy.getLocation()[1];
@@ -421,30 +519,30 @@ public class Quest {
             if (c % 3 == 0) {
                 if (map.getCellAt(r, c).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r, c);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r+1,c).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r+1, c);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r+1,c+1).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r+1, c+1);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r, c+1).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r, c+1);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else {return false;}
             } else {
                 if (map.getCellAt(r, c).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r, c);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r+1,c).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r+1, c);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r+1,c-1).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r+1, c-1);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else if (map.getCellAt(r, c-1).heroCount() == 1) {
                     HeroEntity toAttack = getHeroWithLocation(r, c-1);
-                    return monsterAttacksHero(enemy, toAttack);
+                    return attack(enemy, toAttack, enemy.getDamage());
                 } else {return false;} 
             }
         } else {
@@ -465,7 +563,6 @@ public class Quest {
     }
 
     // get hero at location
-
     public HeroEntity getHeroWithLocation(int r, int c) {
         for (int i = 0; i < heroTeam.count(); i++) {
             if (map.getLocations()[i].hero_r == r && map.getLocations()[i].hero_c == c) {
@@ -475,13 +572,16 @@ public class Quest {
         return heroTeam.get(0);
     }
 
-    // executes an attack
 
-    public boolean monsterAttacksHero(EnemyEntity enemy, HeroEntity hero) {
-        if (!hero.isFainted()) {
-            System.out.println(enemy.toString() + " attacks " + hero.toString() + " for " + Integer.toString(enemy.getDamage()) + " damage.");
-            hero.takeDamage(enemy.getDamage(), "w"); 
-            if (hero.isFainted()) {
+    // handles when some character attacks another one
+    // the damage that an enemy inflicts is found with enemy.getDamage()
+    // the damage that a hero inflicts if found with hero.calculateAttackDamage()
+    // return true if the reciever of the attack is still alive
+    public boolean attack(CharacterEntity attacker, CharacterEntity reciever, int damage){
+        if (!reciever.isFainted()) {
+            System.out.println(attacker.toString() + " attacks " + reciever.toString() + " for " + damage + " damage.");
+            reciever.takeDamage(damage, "w"); 
+            if (reciever.isFainted()) {
                 return false;
             } else {
                 return true;
