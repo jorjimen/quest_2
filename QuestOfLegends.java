@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 // Main Quest object, to handle all the main game logic
-public class Quest {
+public class QuestOfLegends {
 
     // private data members
     private QuestGridMap map;
@@ -19,7 +19,7 @@ public class Quest {
 
     // public constructor for the Quest
     // int dim -> specifies map dimension
-    public Quest(int dim) {
+    public QuestOfLegends(int dim) {
         map = new QuestGridMap(dim);
         heroTeam = new HeroTeam();
     }
