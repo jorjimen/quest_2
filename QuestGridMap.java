@@ -209,6 +209,15 @@ public class QuestGridMap extends GridMap {
         return false;
     }
 
+    public boolean didHeroesReachNexus() {
+        for (int c = 0; c < super.colCount(); c++) {
+            if (getCellAt(0, c).heroCount() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // returns locations
 
     public CellHeroLocation[] getLocations() {

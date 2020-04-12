@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 // Main Quest object, to handle all the main game logic
-public class Quest {
+public class QuestOfLegends {
 
     // private data members
     private QuestGridMap map;
@@ -19,7 +19,7 @@ public class Quest {
 
     // public constructor for the Quest
     // int dim -> specifies map dimension
-    public Quest(int dim) {
+    public QuestOfLegends(int dim) {
         map = new QuestGridMap(dim);
         heroTeam = new HeroTeam();
     }
@@ -48,7 +48,13 @@ public class Quest {
         int index = 0;
         String option = "";
         do {
-            if (map.didMonstersReachNexus()) {
+            if (map.didHeroesReachNexus()) {
+                System.out.println("Heroes... victory is ours!.\n");
+                System.out.println(map);
+                System.out.println(Colors.ANSI_GREEN + "--------------------------------------- YOU WIN ----------------------------------------------------------------------------------\n" + Colors.ANSI_RESET);
+                break;
+            }
+            else if (map.didMonstersReachNexus()) {
                 System.out.println("Heroes... it seems a monster has reached our Nexus. Let's retreat and come back stronger next time.\n");
                 System.out.println(map);
                 System.out.println(Colors.ANSI_RED + "--------------------------------------- YOU LOSE ----------------------------------------------------------------------------------\n" + Colors.ANSI_RESET);
@@ -108,24 +114,19 @@ public class Quest {
                 } else if (option.equals("Q") || option.equals("q")) {
                     break;
                 }else if(option.equals("C") || option.equals("c")){ // attack if there is an enemy in the same cell
-
                     if(!monsterInSameCell(currentHero)){
                         System.out.println("There's no monster here to attack!");
                     } 
                     else{
                         ret = 4;
                     }
-
                 }else if(option.equals("P") || option.equals("p")){  // cast spell if there is an enemy in the same cell
-
                     if(!monsterInSameCell(currentHero)){
                         System.out.println("There's no monster here to cast a spell on!");
                     } 
                     else{
                         ret = 5;
-                       
                     }
-
                 }
                 else if (option.equals("B") || option.equals("b")){
                     System.out.println("Going back to Nexus...");
@@ -145,6 +146,9 @@ public class Quest {
                         System.out.println("Agh! You have hit your head against a wall. Remember, look at your map. You cannot access locations marked in red. Let's back up.");
                       break;
                     case 1:
+                        if (currentHero.r == 0) {
+                            break;
+                        }
                         System.out.println("Home sweet home! You have arrived to a Nexus.");
                         map.enterMarket(heroTeam);
                         if (index + 1 == heroTeam.count()) {
@@ -163,10 +167,6 @@ public class Quest {
                       break;
                     case 2:
                         System.out.println("You have moved.");
-
-                        // THIS HANDLES THE CASE THAT YOU HAVE MOVED
-                        // ADD CODE HERE FOR A FIGHT
-
                         if (index + 1 == heroTeam.count()) {
                             index = 0;
                             moveEnemies();
@@ -187,27 +187,49 @@ public class Quest {
                         if(!curAttack){
                             map.getCellAt(currentHero.getLocation()[0], currentHero.getLocation()[1]).removeEnemy();
                             enemyTeam.remove(currentEnemy);
+                            heroTeam.gain(3);
                             System.out.println("The enemy is defeated!");
                         }
+                        if (index + 1 == heroTeam.count()) {
+                            index = 0;
+                            moveEnemies();
+                            reviveFallenHeroes();
+                            numRounds += 1;
+                            if(numRounds == 8){
+                                buildEnemyTeam();
+                                System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
+                                numRounds = 1;
+                            }
+                        } else {
+                            index += 1;
+                        }
                         break;
-
                     case 5: // try to cast spell
                         if (!currentHero.hasSpells()) {
                             System.out.println(currentHero.toString() + " does not have any spells yet.");
                         }
                         else{
-                            
                             heroUseSpell(currentHero, currentEnemy);
                         }
+                        if (index + 1 == heroTeam.count()) {
+                            index = 0;
+                            moveEnemies();
+                            reviveFallenHeroes();
+                            numRounds += 1;
+                            if(numRounds == 8){
+                                buildEnemyTeam();
+                                System.out.println(Colors.ANSI_RED + "3 new enemies " + Colors.ANSI_RESET + "have spawned in the lanes. Beware!");
+                                numRounds = 1;
+                            }
+                        } else {
+                            index += 1;
+                        }
                         break;
-                    }
-                    
-                  
+                    }   
             } catch (Exception e) {
                 System.out.println("Something went wrong...");
             }
-
-  
+        
         } while (!option.equals("Q") && !option.equals("q"));
                 System.out.println("Thank you for playing!");
 
@@ -508,7 +530,6 @@ public class Quest {
     public boolean monsterInSameCell(HeroEntity hero){
         int r = hero.getLocation()[0];
         int c = hero.getLocation()[1];
-
         return map.getCellAt(r, c).enemyCount() > 0;
     }
 
