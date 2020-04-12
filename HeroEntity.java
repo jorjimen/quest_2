@@ -245,7 +245,7 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
         }
     }
 
-    // handles logic for using a spell potion
+    // handles logic for using a potion
     public boolean usePotion(Potion potion) {
         if (!potion.canBeUsed(this)) {
             return false;

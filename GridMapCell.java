@@ -53,6 +53,15 @@ public class GridMapCell {
         return count;
     }
 
+    public EnemyEntity getEnemy(){
+        for (Unit unit: units){
+            if(unit instanceof EnemyEntity){
+                return (EnemyEntity) unit;
+            }
+        }
+        return null; //idk what to return if there is no enemy here (bc this should never be called if there's not enemy in the cell)
+    }
+
     // setter methods
 
     public void setLocation(int r, int c) {
