@@ -118,18 +118,6 @@ abstract class HeroEntity extends CharacterEntity{ //extends characterentity
         return agility;
     }
 
-    // public String getName() {
-    //     return name;
-    // }
-
-    // public int getLevel() {
-    //     return level;
-    // }
-
-    // public int getHealth() {
-    //     return health;
-    // }
-
     public int getExperience() {
         return experience;
     }
