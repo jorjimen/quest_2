@@ -2,7 +2,7 @@
 
 ### Team 14: Jorge Jimenez and Victoria Kayola
 
-=================================================
+==========================================================================================
 
 #### README
 
@@ -17,6 +17,7 @@ The file that contains the main function that will execute the game is the Compi
 It contains two lines of code:
 
 `QuestOfLegends quest = new QuestOfLegends(8);`    -> Creates the Quest of Legends object. You can change the parameter in order to change the size of the Quest map.
+
 `quest.play();`          -> This public method executes the game
 
 In order to compile, run the following lines in Terminal:
@@ -123,6 +124,7 @@ Leveling up follows the specified details in the PDF. Hero's stats are increased
 
 If you do not select a command to move in the map, you can inspect a hero to view a more detailed version of the player or use on of their items. An example of this would be:
 
+```
 Merlin Myrddin W.
 
   Experience:8
@@ -146,6 +148,7 @@ Merlin Myrddin W.
    Defense Reduction: 100
 
   Class: SORCERER
+  ```
 
 As you can see, the game is keeping track of how many enemies defeated in combat a hero has (this number is only increased when a specific hero lands the KILLING BLOW).
 
@@ -164,6 +167,7 @@ What would you like to do?:
 - During each round, each Hero will make a move. Once all of the Heros have moved, each Enemy will move forward as well. A hero cannot pass an Enemy without defeating it, and likewise an Enemy will attack a Hero when it is next to a Hero. To defeat an Enemy, a hero can attack or cast a spell. To aid in defeating an Enemy, a Hero can buy items (armor, weapons, potions, spells) from the market. If a Hero is killed by an Enemy, it will respawn on its Nexus at the start of the next round. 
 - Every 8 rounds, 3 new Enemies will spawn on the Enemy nexus. 
 - At the start of every round, the heroes regain 10% of their hp and 10% of their mana.
+
 ==========================================================================================
 #### Ending the Game
 The game ends when a Hero reached the Enemy Nexus, or vice versa. If in the same round, a Hero and an Emeny both reach the opposing team's Nexus, the Heroes win.
