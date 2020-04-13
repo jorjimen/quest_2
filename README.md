@@ -21,7 +21,9 @@ It contains two lines of code:
 `quest.play();`          -> This public method executes the game
 
 In order to compile, run the following lines in Terminal:
+
 `javac *.java`
+
 `java CompileMe`
 
 ==========================================================================================
@@ -30,12 +32,15 @@ In order to compile, run the following lines in Terminal:
 
 The Quest of Legends will begin with the prompting the user to create a team of 3 heroes from a list of available heroes:
 
+
+```
 ...
 
 2)  Dragovic Earthborn     250     930     350     650     2500     4     1     100      PALADIN
 3)  Meliodas Rallathil     100     980     400     600     2500     6     1     100      PALADIN
 4)  Garlin Glittergold     700     700     600     500     2500     7     1     100      SORCERER
 ...
+```
 
 Each hero has a number next to it. You can insert the number that you want to select the hero and add it to your team. Once you select a hero, it will be added to your team which
 will be added above. The game will not allow you to have duplicate heroes in your team. Furthermore, you must create a team of three heroes.
