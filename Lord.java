@@ -1,3 +1,5 @@
+// Lords are another type of hero I made. They are only favored in STRENGTH (15% increase). Extends the HeroEntity class.
+
 public class Lord extends HeroEntity {
 
     // constructor for the Warrior class

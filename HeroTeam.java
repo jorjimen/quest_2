@@ -1,8 +1,8 @@
+// public class for the HeroTeam
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-
-// public class for the HeroTeam
 
 public class HeroTeam {
     

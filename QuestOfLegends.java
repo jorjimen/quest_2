@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// Main Quest object, to handle all the main game logic
+// Main Quest Of Legends game object, to handle all the main game logic
 public class QuestOfLegends {
 
     // private data members

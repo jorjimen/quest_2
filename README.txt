@@ -1,13 +1,13 @@
-Creator: Jorge Jimenez (U34800726)
+Quest of Legends
 
-FOR ANY QUESTIONS: jorjimen@bu.edu
+Team 14: Jorge Jimenez and Victoria Kayola
 
 ================================================================================================================================================================================
 
 README
 
-Thank you for taking your time to read this. In this README, I will be overviewing my implementation of the Quest, the way the game logic works and doing an overview of the class
-structure and its logics. All the code implemented contains detailed descriptions of the game.
+Thank you for taking your time to read this. In this README, we will be overviewing our implementation of the Quest of Legends, the way the game logic works and doing an overview of the class
+structure and its logic. All the code implemented contains detailed descriptions of the game.
 
 ================================================================================================================================================================================
 
@@ -17,8 +17,8 @@ The file that contains the main function that will execute the game is the Compi
 
 It contains two lines of code:
 
-Quest quest = new Quest(8);    -> Creates the Quest object. You can change the parameter in order to change the size of the Quest map.
-quest.play()		       -> This public method executed the game
+QuestOfLegends quest = new QuestOfLegends(8);    -> Creates the Quest of Legends object. You can change the parameter in order to change the size of the Quest map.
+quest.play()		       -> This public method executes the game
 
 In order to compile, run the following lines in Terminal:
 'javac *.java'

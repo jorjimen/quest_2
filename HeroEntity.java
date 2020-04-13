@@ -1,9 +1,9 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 // Abstract class for the HeroEntity
 // Handles the entire logic and data members needed necessary for any hero
 // Extends the CharacterEntity class
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 abstract class HeroEntity extends CharacterEntity{ //extends characterentity
 
