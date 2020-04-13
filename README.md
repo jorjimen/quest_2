@@ -161,10 +161,9 @@ What would you like to do?:
 ==========================================================================================
 #### Gameplay
 
-During each round, each Hero will make a move. Once all of the Heros have moved, each Enemy will move forward as well. A hero cannot pass an Enemy without defeating it, and likewise an Enemy will attack a Hero when it is next to a Hero. To defeat an Enemy, a hero can attack or cast a spell. To aid in defeating an Enemy, a Hero can buy items (armor, weapons, potions, spells) from the market. If a Hero is killed by an Enemy, it will respawn on its Nexus at the start of the next round. 
-
-Every 8 rounds, 3 new Enemies will spawn on the Enemy nexus. 
-At the start of every round, the heroes regain 10% of their hp and 10% of their mana.
+- During each round, each Hero will make a move. Once all of the Heros have moved, each Enemy will move forward as well. A hero cannot pass an Enemy without defeating it, and likewise an Enemy will attack a Hero when it is next to a Hero. To defeat an Enemy, a hero can attack or cast a spell. To aid in defeating an Enemy, a Hero can buy items (armor, weapons, potions, spells) from the market. If a Hero is killed by an Enemy, it will respawn on its Nexus at the start of the next round. 
+- Every 8 rounds, 3 new Enemies will spawn on the Enemy nexus. 
+- At the start of every round, the heroes regain 10% of their hp and 10% of their mana.
 ==========================================================================================
 #### Ending the Game
 The game ends when a Hero reached the Enemy Nexus, or vice versa. If in the same round, a Hero and an Emeny both reach the opposing team's Nexus, the Heroes win.
