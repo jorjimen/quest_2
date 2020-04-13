@@ -1,3 +1,4 @@
+// Class representing the tiles on the board that are Nexus spaces. Extends the Terrain class.
 
 public class Nexus extends Terrain {
 

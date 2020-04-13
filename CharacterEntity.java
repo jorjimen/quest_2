@@ -1,8 +1,7 @@
-// abstract class for a Character,
-// which will be extended by different character types,
-// which is Heroes and Enemies here
-
-// implement Entity and Unit interfaces
+/*
+Abstract class for a Character object, which will be extended by concrete character 
+types (Heroes and Enemies). Implements the Entity and Unit interfaces.
+*/
 
 abstract class CharacterEntity implements Entity, Unit{
 

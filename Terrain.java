@@ -1,7 +1,8 @@
-// abstract class for Terrain that can be accessed by entities
-// will be extended by the different concrete types of terrains (Bush, Cave Koulou, Plain)
-
-// Extends the Entity class
+/*
+Abstract class representing Terrain, which will be extended by the 
+concrete terrain types (Bush, Cave Koulou, Plain). Implements the 
+Entity interface.
+*/
 
 abstract class Terrain implements Entity {
 

@@ -1,6 +1,7 @@
+// public class for a cell in the GridMap
+
 import java.util.ArrayList;
 
-// public class for a cell in the GridMap
 
 public class GridMapCell {
 

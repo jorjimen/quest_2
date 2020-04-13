@@ -1,11 +1,11 @@
+// public class for the Market
+// Implements the Entity class
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Iterator;
 
-// public class for the Market
-// Implements the Entity class
-// the 
 
 public class Market implements Entity {
 
