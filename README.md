@@ -2,13 +2,13 @@
 
 ### Team 14: Jorge Jimenez and Victoria Kayola
 
-==========================================================================================
+========================================================================================
 
 #### README
 
 Thank you for taking your time to read this. In this README, we will be overviewing our implementation of the Quest of Legends, the way the game logic works and doing an overview of the class structure and its logic. All the code implemented contains detailed descriptions of the game.
 
-==========================================================================================
+========================================================================================
 
 #### HOW TO COMPILE:
 
@@ -26,7 +26,7 @@ In order to compile, run the following lines in Terminal:
 
 `java CompileMe`
 
-==========================================================================================
+========================================================================================
 
 #### DESCRIPTION OF THE QUEST OF LEGENDS
 
@@ -72,6 +72,7 @@ The tile distribution is randomly generated with the 70% plain and 10% for each 
 By default, the each hero will start in the Hero nexus, with one hero in each lane. Likewise, the enemies start in the enemy nexus.
 
 Every time you are in a tile, you can select from 10 main options:
+```
  W/w) Move Up
  A/a) Move Left
  S/s) Move Down
@@ -82,13 +83,14 @@ Every time you are in a tile, you can select from 10 main options:
  B/b) Return to Nexus/Market 
  I/i) Inspect Team/Use Item
  Q/q) Quit -> QUIT GAME. THIS COMMAND IS FINAL.
+ ```
 
 Any other options will prompt the user again. Important things to note:
 - The game will display everything that is happening at all times. I.e if you move right, it will say "Moving right..." and then an appropriate message depending the outcome
 - Obviously, game will notify you and not allow you to move to red tiles. Avoid this but if you forget, nothing bad will happen you will simply be moved back.
 - The game will also handle appropriately if the user tries to move out of bound, and display the appropriate message.
 
-==========================================================================================
+========================================================================================
 
 #### Markets
 
@@ -117,13 +119,13 @@ selling from. The market will display your current selected hero and their walle
 
 You can freely leave a Market. You can return to the Nexus and enter the Market at any time.
 
-==========================================================================================
+========================================================================================
 
 #### Leveling Up
 
 Leveling up follows the specified details in the PDF. Hero's stats are increased by a certain percentage, more depending on the type of hero (their favored skills). Heroes health is also reset and calculated as follows: `100 * level`.
 
-==========================================================================================
+========================================================================================
 
 #### Inspecting
 
@@ -166,19 +168,19 @@ What would you like to do?:
  4) Use Potion    -> Use a potion on a hero
  5) Go Back To Map  -> Go back to the map
 
-==========================================================================================
+========================================================================================
 #### Gameplay
 
 - During each round, each Hero will make a move. Once all of the Heros have moved, each Enemy will move forward as well. A hero cannot pass an Enemy without defeating it, and likewise an Enemy will attack a Hero when it is next to a Hero. To defeat an Enemy, a hero can attack or cast a spell. To aid in defeating an Enemy, a Hero can buy items (armor, weapons, potions, spells) from the market. If a Hero is killed by an Enemy, it will respawn on its Nexus at the start of the next round. 
 - Every 8 rounds, 3 new Enemies will spawn on the Enemy nexus. 
 - At the start of every round, the heroes regain 10% of their hp and 10% of their mana.
 
-==========================================================================================
+========================================================================================
 #### Ending the Game
 The game ends when a Hero reached the Enemy Nexus, or vice versa. If in the same round, a Hero and an Emeny both reach the opposing team's Nexus, the Heroes win.
 
 ###### THE GOAL OF THE GAME IS TO LEVEL UP, BEAT THE ENEMIES AND REACH THE ENEMY NEXUS. FIGHT WELL BUT FIGHT WISELY. TRY TO COLLECT THE BEST WEAPONS AND ARMORS BUT MOST IMPORTANTLY... HAVE FUN!!!!!!!!!!!!
-==========================================================================================
+========================================================================================
 
 #### Class Structure
 
