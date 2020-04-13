@@ -123,6 +123,7 @@ Leveling up follows the specified details in the PDF. Hero's stats are increased
 
 If you do not select a command to move in the map, you can inspect a hero to view a more detailed version of the player or use on of their items. An example of this would be:
 
+```
 Merlin Myrddin W.
 
   Experience:8
@@ -146,6 +147,7 @@ Merlin Myrddin W.
    Defense Reduction: 100
 
   Class: SORCERER
+  ```
 
 As you can see, the game is keeping track of how many enemies defeated in combat a hero has (this number is only increased when a specific hero lands the KILLING BLOW).
 
