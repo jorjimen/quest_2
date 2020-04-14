@@ -1,6 +1,8 @@
 # Quest of Legends
 
-### Team 14: Jorge Jimenez and Victoria Kayola
+### Team 14: 
+### Victoria Kayola: U63800409
+### Jorge Jimenez: U34800726
 
 ========================================================================================
 
@@ -235,3 +237,4 @@ The game ends when a Hero reached the Enemy Nexus, or vice versa. If in the same
 - Lord class: Lords are another type of hero I made. They are only favored in STRENGTH (15% increase). Extends the HeroEntity class.
 - Demon class: Demons are another type of monster I made. They are only favored in DAMAGE. Extends the EnemyEntity class.
 - LightSpell class: Light Spells are a new class of spells. They reduced all of the opponents skills by 5%. Extends the Spell class.
+
